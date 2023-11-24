@@ -1,5 +1,7 @@
 package net.mysticcloud.spigot.core;
 
+import net.mysticcloud.spigot.core.commands.AdminCommands;
+import net.mysticcloud.spigot.core.listeners.ChatListener;
 import net.mysticcloud.spigot.core.listeners.channels.MessageListener;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import org.bukkit.Bukkit;
@@ -15,6 +17,10 @@ public class MysticCore extends JavaPlugin {
         getServer().getMessenger().registerOutgoingPluginChannel(this, "mystic:bungee");
         getServer().getMessenger().registerIncomingPluginChannel(this, "mystic:mystic", new MessageListener());
         CoreUtils.init(this);
+
+        new ChatListener(this);
+
+        new AdminCommands(this,"update");
     }
 
     public void onDisable() {
