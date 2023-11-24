@@ -5,7 +5,7 @@
 	<groupId>net.mysticcloud</groupId>
 	<artifactId>mystic-core</artifactId>
 	<version>0.5</version>
-	<name>MysticCore</name>
+	<name>mystic-core</name>
 	<properties>
 		<rootdir>/</rootdir>
 	</properties>
