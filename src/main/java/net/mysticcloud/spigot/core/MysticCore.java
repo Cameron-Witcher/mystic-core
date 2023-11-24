@@ -20,7 +20,6 @@ public class MysticCore extends JavaPlugin {
 
         new ChatListener(this);
 
-
         new AdminCommands(this,"update");
     }
 
