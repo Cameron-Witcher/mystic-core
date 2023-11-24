@@ -52,7 +52,7 @@ public class AdminCommands implements CommandExecutor {
                 String plugin = args[0];
                 String filename = plugin + ".jar";
                 String url = "https://jenkins.mysticcloud.net/job/" + plugin
-                        + "/job/master/lastSuccessfulBuild/artifact/target/" + filename;
+                        + "/lastSuccessfulBuild/artifact/target/" + filename;
                 sender.sendMessage(MessageUtils.prefixes("admin") + "Downloading " + filename + "...");
                 if (CoreUtils.downloadFile(url, "plugins/" + filename, "quick", "CGtLLf9gckbh4xb@"))
                     sender.sendMessage(
