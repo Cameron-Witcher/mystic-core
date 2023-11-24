@@ -1,0 +1,10 @@
+name: MysticCore
+author: QuickScythe
+version: 3.5.1
+description: Runs on all MysticCloud servers
+api-version: 1.20
+api: Spigot
+main: net.mysticcloud.spigot.core.MysticCore
+commands:
+  update:
+    description: Update a plugin in our repository.
