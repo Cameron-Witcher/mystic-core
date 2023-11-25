@@ -13,6 +13,6 @@ public class ChatListener implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e){
-        e.setFormat(MessageUtils.colorize("&7" + e.getPlayer().getName() + ":" + "&f" + e.getMessage()));
+        e.setFormat(MessageUtils.colorize("&7" + e.getPlayer().getName() + ":" + " &f" + e.getMessage()));
     }
 }
