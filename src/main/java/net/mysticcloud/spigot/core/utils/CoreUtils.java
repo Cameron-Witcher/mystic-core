@@ -17,7 +17,6 @@ public class CoreUtils {
     private static MysticCore plugin = null;
     private static List<Runnable> palpitations = new ArrayList<>();
 
-
     public static void init(MysticCore core) {
         plugin = core;
         Bukkit.getScheduler().runTaskLater(plugin, new Heartbeat(), 1);
