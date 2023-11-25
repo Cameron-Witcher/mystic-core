@@ -19,7 +19,6 @@ public class MysticCore extends JavaPlugin {
         CoreUtils.init(this);
 
         new ChatListener(this);
-
         new AdminCommands(this,"update");
     }
 
