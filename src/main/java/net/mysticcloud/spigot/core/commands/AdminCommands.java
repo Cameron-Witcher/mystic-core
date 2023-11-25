@@ -24,7 +24,7 @@ public class AdminCommands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (cmd.getName().equalsIgnoreCase("kick")) {
-            if (sender.hasPermission("perm.kick")) {
+            if (sender.hasPermission("perm.kick.2")) {
                 if (args.length > 0) {
                     String a = "";
                     if (args.length > 1) {
