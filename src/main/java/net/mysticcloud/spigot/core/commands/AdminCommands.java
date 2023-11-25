@@ -51,7 +51,7 @@ public class AdminCommands implements CommandExecutor {
 
                 String plugin = args[0];
                 String filename = plugin + ".jar";
-                String url = "https://jenkins.mysticcloud.net/job/" + plugin
+                String url = "https://ci.vanillaflux.com/job/" + plugin
                         + "/lastSuccessfulBuild/artifact/target/" + filename;
                 sender.sendMessage(MessageUtils.prefixes("admin") + "Downloading " + filename + "...");
                 if (CoreUtils.downloadFile(url, "plugins/" + filename, "quick", "CGtLLf9gckbh4xb@"))
@@ -60,7 +60,7 @@ public class AdminCommands implements CommandExecutor {
                 else {
                     sender.sendMessage(MessageUtils.prefixes("admin") + MessageUtils
                             .colorize("There was an error downloading " + filename + ". Trying alt site..."));
-                    if (CoreUtils.downloadFile("https://downloads.mysticcloud.net/" + filename, "plugins/" + filename,
+                    if (CoreUtils.downloadFile("https://downloads.vanillaflux.com/" + filename, "plugins/" + filename,
                             "admin", "v4pob8LW"))
                         sender.sendMessage(
                                 MessageUtils.prefixes("admin") + MessageUtils.colorize("Finished downloading " + filename));
