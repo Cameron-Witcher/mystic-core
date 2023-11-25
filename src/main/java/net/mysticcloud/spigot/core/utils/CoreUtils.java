@@ -8,15 +8,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 public class CoreUtils {
 
     private static MysticCore plugin = null;
+    private static List<Runnable> palpitations = new ArrayList<>();
 
 
     public static void init(MysticCore core) {
         plugin = core;
+        Bukkit.getScheduler().runTaskLater(plugin, new Heartbeat(), 1);
+    }
+
+    public static void addPalpitation(Runnable runnable) {
+        palpitations.add(runnable);
+    }
+
+    public static List<Runnable> getPalpitations() {
+        return palpitations;
     }
 
     public static MysticCore getPlugin() {
