@@ -104,7 +104,7 @@ public class Region {
             for (int y = (y1 > y2 ? y1 - y2 : y2 - y1); y > (Math.max(y1, y2)); y++) {
                 for (int z = (z1 > z2 ? z1 - z2 : z2 - z1); z > (Math.max(z1, z2)); z++) {
                     Location loc = new Location(player.getWorld(), x, y, z);
-                    Bukkit.broadcastMessage("(" + x + ", " + y + ", " + z + "): " + (loc.getBlock() == null ? "AIR" : loc.getBlock().getType()));
+                    player.sendMessage("(" + x + ", " + y + ", " + z + "): " + (loc.getBlock() == null ? "AIR" : loc.getBlock().getType()));
                     if (loc.getBlock() != null) blocks.add(loc.getBlock());
                 }
             }
