@@ -24,8 +24,8 @@ public class RegionUtils {
 
     public static void pasteSave(Location loc, JSONArray save) {
         for (Object obj : save.toList()) {
-            JSONObject json = (JSONObject) obj;
-            loc.clone().add(json.getInt("x"), json.getInt("y"), json.getInt("z")).getBlock().setBlockData(Bukkit.createBlockData(json.getString("data")));
+            HashMap<String, Object> json = (HashMap<String, Object>) obj;
+            loc.clone().add((int) json.get("x"), (int) json.get("y"), (int) json.get("z")).getBlock().setBlockData(Bukkit.createBlockData(json.get("data") + ""));
 
         }
     }
