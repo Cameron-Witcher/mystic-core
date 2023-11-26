@@ -42,7 +42,7 @@ public class AdminCommands implements CommandExecutor {
                     }
                     String name = args[1];
                     for (Block block : RegionUtils.getRegion(player.getUniqueId()).getBlocks(player)) {
-
+                        player.sendMessage(block.getType() + block.getBlockData().getAsString());
                     }
                 }
 

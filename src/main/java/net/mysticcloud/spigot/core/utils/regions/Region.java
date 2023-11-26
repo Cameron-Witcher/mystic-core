@@ -104,7 +104,6 @@ public class Region {
             for (int y = 0; y < getHeight(); y++) {
                 for (int z = 0; z < getWidth(); z++) {
                     Location loc = new Location(player.getWorld(), x + Math.min(x1, x2), y + Math.min(y1, y2), z + Math.min(z1, z2));
-                    player.sendMessage("(" + loc.getX() + ", " + loc.getY() + ", " + loc.getZ() + ") ~(" + x + ", " + y + ", " + z + "): " + (loc.getBlock() == null ? "AIR" : loc.getBlock().getType()));
                     if (loc.getBlock() != null) blocks.add(loc.getBlock());
                 }
             }
