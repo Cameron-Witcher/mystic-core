@@ -8,3 +8,7 @@ main: net.mysticcloud.spigot.core.MysticCore
 commands:
   update:
     description: Update a plugin in our repository.
+  kick:
+    description: Kicks a player
+  region:
+    description: Region command.

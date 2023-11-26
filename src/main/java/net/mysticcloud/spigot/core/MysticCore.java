@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-
 public class MysticCore extends JavaPlugin {
 
     public void onEnable() {
@@ -22,7 +21,7 @@ public class MysticCore extends JavaPlugin {
         new ChatListener(this);
         new InteractionListener(this);
 
-        new AdminCommands(this,"update");
+        new AdminCommands(this, "update", "kick", "region");
     }
 
     public void onDisable() {
