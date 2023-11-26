@@ -1,6 +1,13 @@
 package net.mysticcloud.spigot.core.utils.regions;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Region {
 
@@ -75,7 +82,34 @@ public class Region {
         this.z2 = z2;
     }
 
-    public double getArea() {
-        return ((Math.sqrt(Math.pow(x2 - x1, 2)) + 1) * (Math.sqrt(Math.pow(y2 - y1, 2)) + 1) * (Math.sqrt(Math.pow(z2 - z1, 2)) + 1));
+    public int getArea() {
+        return (int) getLength() * getWidth() * getHeight();
+    }
+
+    public int getLength() {
+        return (int) Math.sqrt(Math.pow(x2 - x1, 2)) + 1;
+    }
+
+    public int getHeight() {
+        return (int) Math.sqrt(Math.pow(y2 - y1, 2)) + 1;
+    }
+
+    public int getWidth() {
+        return (int) Math.sqrt(Math.pow(z2 - z1, 2)) + 1;
+    }
+
+    public Block[] getBlocks(Player player) {
+        List<Block> blocks = new ArrayList<>();
+        for (int x = (x1 > x2 ? x1 - x2 : x2 - x1); x > (Math.max(x1, x2)); x++) {
+            for (int y = (y1 > y2 ? y1 - y2 : y2 - y1); y > (Math.max(y1, y2)); y++) {
+                for (int z = (z1 > z2 ? z1 - z2 : z2 - z1); z > (Math.max(z1, z2)); z++) {
+                    Location loc = new Location(player.getWorld(), x, y, z);
+                    Bukkit.broadcastMessage("(" + x + ", " + y + ", " + z + "): " + (loc.getBlock() == null ? "AIR" : loc.getBlock().getType()));
+                    if (loc.getBlock() != null) blocks.add(loc.getBlock());
+                }
+            }
+
+        }
+        return blocks.toArray(new Block[blocks.size()]);
     }
 }
