@@ -76,6 +76,6 @@ public class Region {
     }
 
     public double getArea() {
-        return (Math.sqrt(Math.pow(x2 - x1, 2)) * Math.sqrt(Math.pow(y2 - y1, 2)) * Math.sqrt(Math.pow(z2 - z1, 2)));
+        return ((Math.sqrt(Math.pow(x2 - x1, 2)) + 1) * (Math.sqrt(Math.pow(y2 - y1, 2)) + 1) * (Math.sqrt(Math.pow(z2 - z1, 2)) + 1));
     }
 }
