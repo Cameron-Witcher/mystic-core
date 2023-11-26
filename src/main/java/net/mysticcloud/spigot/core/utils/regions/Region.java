@@ -100,15 +100,11 @@ public class Region {
 
     public Block[] getBlocks(Player player) {
         List<Block> blocks = new ArrayList<>();
-        int rx = 0, ry = 0, rz = 0;
-        for (int x = Math.min(x1, x2); x <= (Math.max(x1, x2)); x++) {
-            rx = rx + 1;
-            for (int y = Math.min(y1, y2); y <= (Math.max(y1, y2)); y++) {
-                ry = ry + 1;
-                for (int z = Math.min(z1, z2); z <= (Math.max(z1, z2)); z++) {
-                    rz = rz + 1;
-                    Location loc = new Location(player.getWorld(), x, y, z);
-                    player.sendMessage("(" + x + ", " + y + ", " + z + ") ~(" + rx + ", " + ry + ", " + rz + "): " + (loc.getBlock() == null ? "AIR" : loc.getBlock().getType()));
+        for (int x = 0; x <= getLength(); x++) {
+            for (int y = 0; y <= getHeight(); y++) {
+                for (int z = 0; z <= getWidth(); z++) {
+                    Location loc = new Location(player.getWorld(), x + Math.min(x1, x2), y + Math.min(y1, y2), z + Math.min(z1, z2));
+                    player.sendMessage("(" + loc.getX() + ", " + loc.getY() + ", " + loc.getZ() + ") ~(" + x + ", " + y + ", " + z + "): " + (loc.getBlock() == null ? "AIR" : loc.getBlock().getType()));
                     if (loc.getBlock() != null) blocks.add(loc.getBlock());
                 }
             }
