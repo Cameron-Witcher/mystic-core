@@ -52,8 +52,8 @@ public class AdminCommands implements CommandExecutor {
 
                     for (Map.Entry<Vector, BlockData> e : RegionUtils.getRegion(player.getUniqueId()).getBlocks(player).entrySet()) {
                         String type = e.getValue().getMaterial().name();
-                        String data = e.getValue().getAsString().replaceFirst("minecraft:", "");
-                        array.put(new JSONObject("{\"x\":" + e.getKey().getX() + ",\"y\":" + e.getKey().getY() + ",\"z\":" + e.getKey().getZ() + ",\"block\":\"" + type + "\",\"data\":\"" + data + "\"}"));
+                        String data = e.getValue().getAsString().replaceFirst("minecraft:" + type.toLowerCase(), "");
+                        array.put(new JSONObject("{\"x\":" + e.getKey().getX() + ",\"y\":" + e.getKey().getY() + ",\"z\":" + e.getKey().getZ() + ",\"block\":\"" + type + "\"" + (data == "" ? "" : ",\"data\":\"" + data + "\"") + "}"));
                         //Do some file crap here
                     }
                     player.sendMessage(array.toString());
