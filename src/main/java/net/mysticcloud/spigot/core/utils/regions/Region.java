@@ -3,11 +3,14 @@ package net.mysticcloud.spigot.core.utils.regions;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Region {
 
@@ -98,17 +101,18 @@ public class Region {
         return (int) Math.sqrt(Math.pow(z2 - z1, 2)) + 1;
     }
 
-    public Block[] getBlocks(Player player) {
+    public Map<Vector, BlockData> getBlocks(Player player) {
+        Map<Vector, BlockData> blockdata = new HashMap<>();
         List<Block> blocks = new ArrayList<>();
         for (int x = 0; x < getLength(); x++) {
             for (int y = 0; y < getHeight(); y++) {
                 for (int z = 0; z < getWidth(); z++) {
                     Location loc = new Location(player.getWorld(), x + Math.min(x1, x2), y + Math.min(y1, y2), z + Math.min(z1, z2));
-                    if (loc.getBlock() != null) blocks.add(loc.getBlock());
+                    blockdata.put(new Vector(x, y, z), loc.getBlock().getBlockData());
                 }
             }
 
         }
-        return blocks.toArray(new Block[blocks.size()]);
+        return blockdata;
     }
 }
