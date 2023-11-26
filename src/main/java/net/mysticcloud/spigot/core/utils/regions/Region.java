@@ -74,4 +74,8 @@ public class Region {
     public void setZ2(int z2) {
         this.z2 = z2;
     }
+
+    public int getArea() {
+        return (int) (Math.sqrt(Math.pow(x2 - x1, 2)) * Math.sqrt(Math.pow(y2 - y1, 2)) * Math.sqrt(Math.pow(z2 - z1, 2)));
+    }
 }
