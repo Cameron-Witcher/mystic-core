@@ -23,13 +23,18 @@ public class InteractionListener implements Listener {
         if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE) && (e.getPlayer().getInventory().getItemInMainHand() != null && e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.WOODEN_AXE))) {
             if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
                 Vector vec = new Vector(e.getClickedBlock().getX(), e.getClickedBlock().getY(), e.getClickedBlock().getZ());
-                e.getPlayer().sendMessage(MessageUtils.colorize("&cPosition 1 set: (" + vec.getX() + ", " + vec.getY() + ", " + vec.getZ() + ")"));
-                RegionUtils.getRegion(e.getPlayer().getUniqueId()).setPos1(vec);
+                Region r = RegionUtils.getRegion(e.getPlayer().getUniqueId());
+                r.setPos1(vec);
+                e.getPlayer().sendMessage(MessageUtils.colorize("&cPosition 1 set: (" + vec.getX() + ", " + vec.getY() + ", " + vec.getZ() + ") (" + (Math.sqrt(Math.pow(r.getX2() - r.getX1(),2) + Math.pow(r.getY2() - r.getY1(),2) + Math.pow(r.getZ2() - r.getZ1(),2))) + ")"));
+                e.setCancelled(true);
             }
             if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
+
                 Vector vec = new Vector(e.getClickedBlock().getX(), e.getClickedBlock().getY(), e.getClickedBlock().getZ());
-                e.getPlayer().sendMessage(MessageUtils.colorize("&cPosition 1 set: (" + vec.getX() + ", " + vec.getY() + ", " + vec.getZ() + ")"));
-                RegionUtils.getRegion(e.getPlayer().getUniqueId()).setPos2(vec);
+                Region r = RegionUtils.getRegion(e.getPlayer().getUniqueId());
+                r.setPos2(vec);
+                e.getPlayer().sendMessage(MessageUtils.colorize("&cPosition 2 set: (" + vec.getX() + ", " + vec.getY() + ", " + vec.getZ() + ") (" + (Math.sqrt(Math.pow(r.getX2() - r.getX1(),2) + Math.pow(r.getY2() - r.getY1(),2) + Math.pow(r.getZ2() - r.getZ1(),2))) + ")"));
+                e.setCancelled(true);
             }
 
         }
