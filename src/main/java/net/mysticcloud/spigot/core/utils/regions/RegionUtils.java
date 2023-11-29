@@ -109,14 +109,7 @@ public class RegionUtils {
             }
             array.put(new JSONObject("{\"x\":" + e.getKey().getX() + ",\"y\":" + e.getKey().getY() + ",\"z\":" + e.getKey().getZ() + ",\"data\":\"" + e.getValue().getBlockData().getAsString(false) + "\"" + extra + "}"));
         }
-        File rf = new File(CoreUtils.getPlugin().getDataFolder() + "/regions.yml");
-        if (!rf.exists()) {
-            try {
-                MessageUtils.log("Region file creation: " + (rf.createNewFile() ? "success" : "FAILED."));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
         try {
             FileWriter writer = new FileWriter(file);
             writer.write(array.toString());
