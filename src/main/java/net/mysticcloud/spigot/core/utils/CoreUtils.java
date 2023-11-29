@@ -1,6 +1,7 @@
 package net.mysticcloud.spigot.core.utils;
 
 import net.mysticcloud.spigot.core.MysticCore;
+import net.mysticcloud.spigot.core.utils.regions.RegionUtils;
 import org.bukkit.Bukkit;
 
 import java.io.FileOutputStream;
@@ -20,6 +21,7 @@ public class CoreUtils {
     public static void init(MysticCore core) {
         plugin = core;
         Bukkit.getScheduler().runTaskLater(plugin, new Heartbeat(), 1);
+        RegionUtils.init();
     }
 
     public static void addPalpitation(Runnable runnable) {

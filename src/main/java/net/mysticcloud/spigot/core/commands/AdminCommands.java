@@ -46,16 +46,17 @@ public class AdminCommands implements CommandExecutor {
                         sender.sendMessage(MessageUtils.prefixes("region") + "Usage: /region save <name>");
                         return true;
                     }
-                    String name = args[1];
-                    JSONObject object = new JSONObject("{}");
-                    JSONArray array = new JSONArray();
 
-                    for (Map.Entry<Vector, BlockData> e : RegionUtils.getRegion(player.getUniqueId()).getBlocks(player).entrySet()) {
-                        array.put(new JSONObject("{\"x\":" + e.getKey().getX() + ",\"y\":" + e.getKey().getY() + ",\"z\":" + e.getKey().getZ() + ",\"data\":\"" + e.getValue().getAsString(false) + "\"}"));
-                        //Do some file crap here
+                    RegionUtils.saveRegion(args[1], player);
+                }
+
+                if (args[0].equalsIgnoreCase("paste")) {
+                    if (args.length != 2) {
+                        sender.sendMessage(MessageUtils.prefixes("region") + "Usage: /region save <name>");
+                        return true;
                     }
-                    player.sendMessage(array.toString());
-                    RegionUtils.pasteSave(player.getLocation(), array);
+
+                    RegionUtils.pasteSave(args[0], player);
                 }
 
             } else {
