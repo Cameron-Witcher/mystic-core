@@ -14,40 +14,21 @@ import org.json2.JSONArray;
 import org.json2.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class RegionUtils {
 
-    private static File regionFile = new File(CoreUtils.getPlugin().getDataFolder() + "/regions.yml");
-    private static FileConfiguration regionYml = YamlConfiguration.loadConfiguration(regionFile);
+    private static final File regionDir = new File(CoreUtils.getPlugin().getDataFolder() + "/regions");
 
     private static Map<UUID, Region> regions = new HashMap<>();
 
     public static void init() {
-        if (!regionFile.exists()) {
-            try {
-                regionFile.getParentFile().mkdirs();
-                MessageUtils.log("Region file creation: " + (regionFile.createNewFile() ? "success" : "FAILED."));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    public static FileConfiguration getRegionYml() {
-        return regionYml;
-    }
-
-    public static void saveRegionYml() {
-        try {
-            regionYml.save(regionFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (!regionDir.exists()) {
+            MessageUtils.log("Region file creation: " + (regionDir.mkdirs() ? "success" : "FAILED."));
         }
     }
 
@@ -60,13 +41,21 @@ public class RegionUtils {
 
     public static void pasteSave(String name, Player player) {
 
-        if (getRegionYml().contains("region." + name)) {
+        File file = new File(regionDir.getPath() + "/" + name + ".region");
+        if (!file.exists()) {
             player.sendMessage(MessageUtils.prefixes("region") + "Sorry that region doesn't exist. Try again, or try /region list-saves to see all saved regions.");
             return;
         }
-
-
-        JSONArray save = new JSONArray(getRegionYml().getString("region." + name));
+        JSONArray save;
+        try {
+            File myObj = new File("filename.txt");
+            Scanner reader = new Scanner(myObj);
+            save = new JSONArray(reader.nextLine());
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            throw new RuntimeException(e);
+        }
 
 
         for (int i = 0; i < save.length(); i++) {
@@ -82,6 +71,16 @@ public class RegionUtils {
 
     public static void saveRegion(String name, Player player) {
 
+        File file = new File(regionDir.getPath() + "/" + name + ".region");
+        if (file.exists()) {
+            file.delete();
+            try {
+                MessageUtils.log("Region file creation: " + (file.createNewFile() ? "success" : "FAILED."));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         JSONArray array = new JSONArray();
 
         for (Map.Entry<Vector, BlockData> e : getRegion(player.getUniqueId()).getBlocks(player).entrySet())
@@ -94,12 +93,15 @@ public class RegionUtils {
                 throw new RuntimeException(e);
             }
         }
-        FileConfiguration yml = YamlConfiguration.loadConfiguration(rf);
-        yml.set("region." + name, array.toString());
         try {
-            yml.save(rf);
+            FileWriter myWriter = new FileWriter(file);
+            myWriter.write(array.toString());
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
+            System.out.println("An error occurred.");
             throw new RuntimeException(e);
+
         }
 
     }
