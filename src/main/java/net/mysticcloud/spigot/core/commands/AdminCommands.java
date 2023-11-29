@@ -56,7 +56,7 @@ public class AdminCommands implements CommandExecutor {
                         return true;
                     }
 
-                    RegionUtils.pasteSave(args[0], player);
+                    RegionUtils.pasteSave(args[1], player);
                 }
 
             } else {
