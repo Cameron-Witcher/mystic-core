@@ -31,14 +31,10 @@ public class RegionUtils {
     public static void init() {
         if (!regionFile.exists()) {
             try {
+                regionFile.getParentFile().mkdirs();
                 MessageUtils.log("Region file creation: " + (regionFile.createNewFile() ? "success" : "FAILED."));
             } catch (IOException e) {
-                regionFile.mkdir();
-                try {
-                    MessageUtils.log("Region file creation: " + (regionFile.createNewFile() ? "success" : "FAILED."));
-                } catch (IOException e2) {
-                    throw new RuntimeException(e2);
-                }
+                throw new RuntimeException(e);
             }
         }
     }
