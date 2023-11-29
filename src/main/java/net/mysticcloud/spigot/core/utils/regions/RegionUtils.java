@@ -33,7 +33,7 @@ public class RegionUtils {
             try {
                 MessageUtils.log("Region file creation: " + (regionFile.createNewFile() ? "success" : "FAILED."));
             } catch (IOException e) {
-                regionFile.mkdirs();
+                regionFile.mkdir();
                 try {
                     MessageUtils.log("Region file creation: " + (regionFile.createNewFile() ? "success" : "FAILED."));
                 } catch (IOException e2) {
