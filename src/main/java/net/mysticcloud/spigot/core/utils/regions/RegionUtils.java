@@ -64,6 +64,27 @@ public class RegionUtils {
         }
     }
 
+    public static JSONArray getSave(String name){
+        File file = new File(regionDir.getPath() + "/" + name + ".region");
+        if (!file.exists()) {
+            MessageUtils.log(MessageUtils.prefixes("Save doesn't exist"));
+        } else {
+            JSONArray save;
+            try {
+                Scanner reader = new Scanner(file);
+                save = new JSONArray(reader.nextLine());
+                reader.close();
+            } catch (FileNotFoundException var6) {
+                System.out.println("An error occurred.");
+                throw new RuntimeException(var6);
+            }
+
+            return save;
+
+        }
+        return null;
+    }
+
     public static void saveRegion(String name, Player player) {
 
         File file = new File(regionDir.getPath() + "/" + name + ".region");
