@@ -5,6 +5,8 @@ import net.mysticcloud.spigot.core.utils.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Structure;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -64,7 +66,7 @@ public class RegionUtils {
         }
     }
 
-    public static JSONArray getSave(String name){
+    public static JSONArray getSave(String name) {
         File file = new File(regionDir.getPath() + "/" + name + ".region");
         if (!file.exists()) {
             MessageUtils.log(MessageUtils.prefixes("Save doesn't exist"));
@@ -99,8 +101,14 @@ public class RegionUtils {
 
         JSONArray array = new JSONArray();
 
-        for (Map.Entry<Vector, BlockData> e : getRegion(player.getUniqueId()).getBlocks(player).entrySet())
-            array.put(new JSONObject("{\"x\":" + e.getKey().getX() + ",\"y\":" + e.getKey().getY() + ",\"z\":" + e.getKey().getZ() + ",\"data\":\"" + e.getValue().getAsString(false) + "\"}"));
+        for (Map.Entry<Vector, Block> e : getRegion(player.getUniqueId()).getBlocks(player).entrySet()) {
+            String extra = "";
+            if (e.getValue().getType().equals(Material.STRUCTURE_BLOCK)) {
+                Structure s = (Structure) e.getValue().getState();
+                extra = ",\"structure_data\":{\"structure\":\"" + s.getStructureName() + "\"}";
+            }
+            array.put(new JSONObject("{\"x\":" + e.getKey().getX() + ",\"y\":" + e.getKey().getY() + ",\"z\":" + e.getKey().getZ() + ",\"data\":\"" + e.getValue().getBlockData().getAsString(false) + "\"" + extra + "}"));
+        }
         File rf = new File(CoreUtils.getPlugin().getDataFolder() + "/regions.yml");
         if (!rf.exists()) {
             try {
@@ -122,7 +130,7 @@ public class RegionUtils {
 
     }
 
-    public static boolean saveExists(String name){
+    public static boolean saveExists(String name) {
         return new File(regionDir.getPath() + "/" + name + ".region").exists();
     }
 }

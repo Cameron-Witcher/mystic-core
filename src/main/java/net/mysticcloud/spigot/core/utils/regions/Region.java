@@ -101,14 +101,14 @@ public class Region {
         return (int) Math.sqrt(Math.pow(z2 - z1, 2)) + 1;
     }
 
-    public Map<Vector, BlockData> getBlocks(Player player) {
-        Map<Vector, BlockData> blockdata = new HashMap<>();
+    public Map<Vector, Block> getBlocks(Player player) {
+        Map<Vector, Block> blockdata = new HashMap<>();
         List<Block> blocks = new ArrayList<>();
         for (int x = 0; x < getLength(); x++) {
             for (int y = 0; y < getHeight(); y++) {
                 for (int z = 0; z < getWidth(); z++) {
                     Location loc = new Location(player.getWorld(), x + Math.min(x1, x2), y + Math.min(y1, y2), z + Math.min(z1, z2));
-                    blockdata.put(new Vector(x, y, z), loc.getBlock().getBlockData());
+                    blockdata.put(new Vector(x, y, z), loc.getBlock());
                 }
             }
 
