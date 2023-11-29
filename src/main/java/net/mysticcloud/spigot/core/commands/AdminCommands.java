@@ -56,7 +56,12 @@ public class AdminCommands implements CommandExecutor {
                         return true;
                     }
 
-                    RegionUtils.pasteSave(args[1], player);
+                    if(RegionUtils.saveExists(args[1])){
+                        player.sendMessage(MessageUtils.prefixes("region") + "Sorry that region doesn't exist.");
+                        return true;
+                    }
+
+                    RegionUtils.pasteSave(args[1], player.getLocation());
                 }
 
             } else {

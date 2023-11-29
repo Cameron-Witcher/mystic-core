@@ -40,11 +40,11 @@ public class RegionUtils {
         return regions.get(uid);
     }
 
-    public static void pasteSave(String name, Player player) {
+    public static void pasteSave(String name, Location loc) {
 
         File file = new File(regionDir.getPath() + "/" + name + ".region");
         if (!file.exists()) {
-            player.sendMessage(MessageUtils.prefixes("region") + "Sorry that region doesn't exist. Try again, or try /region list-saves to see all saved regions.");
+            MessageUtils.log(MessageUtils.prefixes("Save doesn't exist"));
             return;
         }
         JSONArray save;
@@ -60,7 +60,7 @@ public class RegionUtils {
 
         for (int i = 0; i < save.length(); i++) {
             JSONObject data = save.getJSONObject(i);
-            player.getLocation().clone().add(data.getInt("x"), data.getInt("y"), data.getInt("z")).getBlock().setBlockData(Bukkit.createBlockData(data.getString("data")));
+            loc.clone().add(data.getInt("x"), data.getInt("y"), data.getInt("z")).getBlock().setBlockData(Bukkit.createBlockData(data.getString("data")));
         }
     }
 
@@ -99,5 +99,9 @@ public class RegionUtils {
 
         }
 
+    }
+
+    public static boolean saveExists(String name){
+        return new File(regionDir.getPath() + "/" + name + ".region").exists();
     }
 }
