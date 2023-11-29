@@ -48,8 +48,7 @@ public class RegionUtils {
         }
         JSONArray save;
         try {
-            File myObj = new File("filename.txt");
-            Scanner reader = new Scanner(myObj);
+            Scanner reader = new Scanner(file);
             save = new JSONArray(reader.nextLine());
             reader.close();
         } catch (FileNotFoundException e) {
