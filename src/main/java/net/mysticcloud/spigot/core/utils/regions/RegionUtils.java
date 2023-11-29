@@ -33,7 +33,12 @@ public class RegionUtils {
             try {
                 MessageUtils.log("Region file creation: " + (regionFile.createNewFile() ? "success" : "FAILED."));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                regionFile.mkdirs();
+                try {
+                    MessageUtils.log("Region file creation: " + (regionFile.createNewFile() ? "success" : "FAILED."));
+                } catch (IOException e2) {
+                    throw new RuntimeException(e2);
+                }
             }
         }
     }
