@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.json2.JSONArray;
 import org.json2.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class RegionUtils {
     public static void pasteSave(Location loc, JSONArray save) {
         for (Object obj : save.toList()) {
             HashMap<String, Object> json = (HashMap<String, Object>) obj;
-            loc.clone().add((Double) json.get("x"), (Double) json.get("y"), (Double) json.get("z")).getBlock().setBlockData(Bukkit.createBlockData(json.get("data") + ""));
+            loc.clone().add(((BigDecimal) json.get("x")).intValue(), ((BigDecimal) json.get("y")).intValue(), ((BigDecimal) json.get("z")).intValue()).getBlock().setBlockData(Bukkit.createBlockData(json.get("data") + ""));
 
         }
     }
