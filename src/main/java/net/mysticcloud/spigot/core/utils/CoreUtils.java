@@ -21,6 +21,7 @@ public class CoreUtils {
     public static void init(MysticCore core) {
         plugin = core;
         Bukkit.getScheduler().runTaskLater(plugin, new Heartbeat(), 1);
+        plugin.getConfig();
         RegionUtils.init();
     }
 
