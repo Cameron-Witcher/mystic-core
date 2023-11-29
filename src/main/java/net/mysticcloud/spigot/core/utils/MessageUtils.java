@@ -28,6 +28,11 @@ public class MessageUtils {
         return prefixes.get(key);
     }
 
+    public static void prefixes(String key, String prefix) {
+        prefixes.put(key, colorize(prefix));
+    }
+
+
     public static void sendPluginMessage(Player player, String channel, String... arguments) {
         if (arguments == null | arguments.length == 0)
             return;

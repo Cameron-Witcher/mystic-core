@@ -27,6 +27,7 @@ public class RegionUtils {
     private static Map<UUID, Region> regions = new HashMap<>();
 
     public static void init() {
+        MessageUtils.prefixes("region", "&3&lRegions &7> &f");
         if (!regionDir.exists()) {
             MessageUtils.log("Region file creation: " + (regionDir.mkdirs() ? "success" : "FAILED."));
         }
@@ -61,11 +62,6 @@ public class RegionUtils {
             JSONObject data = save.getJSONObject(i);
             player.getLocation().clone().add(data.getInt("x"), data.getInt("y"), data.getInt("z")).getBlock().setBlockData(Bukkit.createBlockData(data.getString("data")));
         }
-//        for (Object obj : save.toList()) {
-//            HashMap<String, Object> json = (HashMap<String, Object>) obj;
-//            loc.clone().add(((BigDecimal) json.get("x")).intValue(), ((BigDecimal) json.get("y")).intValue(), ((BigDecimal) json.get("z")).intValue())
-//
-//        }
     }
 
     public static void saveRegion(String name, Player player) {
@@ -93,19 +89,15 @@ public class RegionUtils {
             }
         }
         try {
-            FileWriter myWriter = new FileWriter(file);
-            myWriter.write(array.toString());
-            myWriter.close();
+            FileWriter writer = new FileWriter(file);
+            writer.write(array.toString());
+            writer.close();
             System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
             System.out.println("An error occurred.");
             throw new RuntimeException(e);
 
         }
-
-    }
-
-    public static void getSave(String name) {
 
     }
 }
