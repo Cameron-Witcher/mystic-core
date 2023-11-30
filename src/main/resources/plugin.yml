@@ -12,3 +12,5 @@ commands:
     description: Kicks a player
   region:
     description: Region command.
+  sudo:
+    description: Control another player

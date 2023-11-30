@@ -21,7 +21,7 @@ public class MysticCore extends JavaPlugin {
         new ChatListener(this);
         new InteractionListener(this);
 
-        new AdminCommands(this, "update", "kick", "region");
+        new AdminCommands(this, "update", "kick", "region", "sudo");
     }
 
     public void onDisable() {
