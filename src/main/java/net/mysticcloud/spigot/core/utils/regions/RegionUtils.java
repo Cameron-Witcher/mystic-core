@@ -102,6 +102,8 @@ public class RegionUtils {
         JSONArray array = new JSONArray();
 
         for (Map.Entry<Vector, Block> e : getRegion(player.getUniqueId()).getBlocks(player).entrySet()) {
+            if(e.getValue().getType().equals(Material.AIR))
+                continue;
             String extra = "";
             if (e.getValue().getType().equals(Material.STRUCTURE_BLOCK)) {
                 Structure s = (Structure) e.getValue().getState();
