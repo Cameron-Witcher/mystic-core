@@ -55,7 +55,7 @@ public class CoreUtils {
         return Math.sqrt(Math.pow(loc2.getX() - loc1.getX(), 2) + Math.pow(loc2.getY() - loc1.getY(), 2) + Math.pow(loc2.getZ() - loc1.getZ(), 2));
     }
 
-    public boolean deleteWorld(File path) {
+    public static boolean deleteWorld(File path) {
         if (path.exists()) {
             File files[] = path.listFiles();
             for (int i = 0; i < files.length; i++) {
@@ -69,7 +69,7 @@ public class CoreUtils {
         return (path.delete());
     }
 
-    public void copyWorld(File source, File target) {
+    public static void copyWorld(File source, File target) {
         try {
             ArrayList<String> ignore = new ArrayList<String>(Arrays.asList("uid.dat", "session.dat"));
             if (!ignore.contains(source.getName())) {
