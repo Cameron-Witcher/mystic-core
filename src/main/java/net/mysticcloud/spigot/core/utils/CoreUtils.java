@@ -72,6 +72,8 @@ public class CoreUtils {
     public static void copyWorld(File source, File target) {
         try {
             ArrayList<String> ignore = new ArrayList<String>(Arrays.asList("uid.dat", "session.dat"));
+            if (source.isDirectory()) for (File file : source.listFiles())
+                if (file.getName().endsWith(".arena")) ignore.add(file.getName());
             if (!ignore.contains(source.getName())) {
                 if (source.isDirectory()) {
                     if (!target.exists()) target.mkdirs();
@@ -94,6 +96,26 @@ public class CoreUtils {
         } catch (IOException e) {
 
         }
+    }
+
+    public static String encryptLocation(Location loc) {
+        String r = loc.getWorld().getName() + ":" + loc.getX() + ":" + loc.getY() + ":" + loc.getZ() + ":" + loc.getPitch() + ":" + loc.getYaw();
+        r = r.replaceAll("\\.", ",");
+        r = "location:" + r;
+        return r;
+    }
+
+    public static Location decryptLocation(String s) {
+        if (s.startsWith("location:")) s = s.replaceAll("location:", "");
+
+        if (s.contains(",")) s = s.replaceAll(",", ".");
+        String[] args = s.split(":");
+        Location r = new Location(Bukkit.getWorld(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
+        if (args.length >= 5) {
+            r.setPitch(Float.parseFloat(args[4]));
+            r.setYaw(Float.parseFloat(args[5]));
+        }
+        return r;
     }
 
 
