@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -24,8 +25,7 @@ public class MessageUtils {
 
     public static String prefixes(String key) {
         if (prefixes.get(key) == null)
-            prefixes.put(key, colorize("&e&l" + key.toUpperCase().substring(0, 1)
-                    + key.toLowerCase().substring(1, key.length()) + " &7>&f "));
+            prefixes.put(key, colorize("&e&l" + key.toUpperCase().substring(0, 1) + key.toLowerCase().substring(1, key.length()) + " &7>&f "));
         return prefixes.get(key);
     }
 
@@ -70,10 +70,82 @@ public class MessageUtils {
         return d;
     }
 
+    public static String formatDate(long ms, String tcolor, String ncolor) {
+
+        int l = (int) (ms / 1000);
+        int sec = l % 60;
+        int min = (l / 60) % 60;
+        int hours = ((l / 60) / 60) % 24;
+        int days = (((l / 60) / 60) / 24) % 7;
+        int weeks = (((l / 60) / 60) / 24) / 7;
+
+        if (weeks > 0) {
+            return ncolor + weeks + tcolor + " weeks" + (days > 0 ? ", " + ncolor + days + tcolor + " days" : "") + (hours > 0 ? ", " + ncolor + hours + tcolor + " hours" : "") + (min > 0 ? ", " + ncolor + min + tcolor + " minutes" : "") + (sec > 0 ? ", and " + ncolor + sec + tcolor + " " + (sec == 1 ? "second" : "seconds") : "");
+        }
+        if (days > 0) {
+            return ncolor + days + tcolor + " days" + (hours > 0 ? ", " + ncolor + hours + tcolor + " hours" : "") + (min > 0 ? ", " + ncolor + min + tcolor + " minutes" : "") + (sec > 0 ? ", and " + ncolor + sec + tcolor + " " + (sec == 1 ? "second" : "seconds") : "");
+        }
+        if (hours > 0) {
+            return ncolor + hours + tcolor + " hours" + (min > 0 ? ", " + ncolor + min + tcolor + " minutes" : "") + (sec > 0 ? ", and " + ncolor + sec + tcolor + " " + (sec == 1 ? "second" : "seconds") : "");
+        }
+        if (min > 0) {
+            return ncolor + min + tcolor + " minutes" + (sec > 0 ? ", and " + ncolor + sec + tcolor + " " + (sec == 1 ? "second" : "seconds") : "");
+        }
+        if (sec > 0) {
+            return ncolor + sec + tcolor + " " + (sec == 1 ? "second" : "seconds");
+        }
+
+        return ncolor + "less than a second" + tcolor + "";
+    }
+
+    public static String formatDateRaw(long ms) {
+        return formatDate(ms, "", "");
+    }
+
+    public static String formatTime(long ms, String ncolor, String tcolor) {
+
+        int sec60 = (int) (ms % 1000) / 10;
+
+        int l = (int) (ms / 1000);
+
+        int sec = l % 60;
+        int min = (l / 60) % 60;
+        int hours = ((l / 60) / 60) % 24;
+        int days = (((l / 60) / 60) / 24) % 7;
+        int weeks = (((l / 60) / 60) / 24) / 7;
+
+        DecimalFormat format = new DecimalFormat("00");
+
+        if (weeks > 0) {
+            return ncolor + format.format(weeks) + tcolor + ":" + ncolor + format.format(days) + tcolor + ":" + ncolor + format.format(hours) + tcolor + ":" + ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor + ":" + ncolor + format.format(sec60) + tcolor;
+
+        }
+        if (days > 0) {
+            return ncolor + format.format(days) + tcolor + ":" + ncolor + format.format(hours) + tcolor + ":" + ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor + ":" + ncolor + format.format(sec60) + tcolor;
+        }
+        if (hours > 0) {
+            return ncolor + format.format(hours) + tcolor + ":" + ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor + ":" + ncolor + format.format(sec60) + tcolor;
+        }
+        if (min > 0) {
+            return ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor + ":" + ncolor + format.format(sec60) + tcolor;
+        }
+        if (sec > 0) {
+            return ncolor + format.format(sec) + tcolor + ":" + ncolor + format.format(sec60) + tcolor;
+        }
+        if (sec60 > 0) {
+            return ncolor + "00" + tcolor + ":" + ncolor + format.format(sec60) + tcolor;
+        }
+
+        return ncolor + "less than a millisecond" + tcolor + "";
+    }
+
+    public static String formatTimeRaw(long ms) {
+        return formatTime(ms, "", "");
+    }
+
 
     public static void sendPluginMessage(Player player, String channel, String... arguments) {
-        if (arguments == null | arguments.length == 0)
-            return;
+        if (arguments == null | arguments.length == 0) return;
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         for (String s : arguments) {
             out.writeUTF(s);
