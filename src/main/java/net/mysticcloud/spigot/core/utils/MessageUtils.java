@@ -103,9 +103,6 @@ public class MessageUtils {
     }
 
     public static String formatTime(long ms, String ncolor, String tcolor) {
-
-        int sec60 = (int) (ms % 1000) / 10;
-
         int l = (int) (ms / 1000);
 
         int sec = l % 60;
@@ -117,26 +114,23 @@ public class MessageUtils {
         DecimalFormat format = new DecimalFormat("00");
 
         if (weeks > 0) {
-            return ncolor + format.format(weeks) + tcolor + ":" + ncolor + format.format(days) + tcolor + ":" + ncolor + format.format(hours) + tcolor + ":" + ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor + ":" + ncolor + format.format(sec60) + tcolor;
+            return ncolor + format.format(weeks) + tcolor + ":" + ncolor + format.format(days) + tcolor + ":" + ncolor + format.format(hours) + tcolor + ":" + ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor;
 
         }
         if (days > 0) {
-            return ncolor + format.format(days) + tcolor + ":" + ncolor + format.format(hours) + tcolor + ":" + ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor + ":" + ncolor + format.format(sec60) + tcolor;
+            return ncolor + format.format(days) + tcolor + ":" + ncolor + format.format(hours) + tcolor + ":" + ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor;
         }
         if (hours > 0) {
-            return ncolor + format.format(hours) + tcolor + ":" + ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor + ":" + ncolor + format.format(sec60) + tcolor;
+            return ncolor + format.format(hours) + tcolor + ":" + ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor;
         }
         if (min > 0) {
-            return ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor + ":" + ncolor + format.format(sec60) + tcolor;
+            return ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor;
         }
         if (sec > 0) {
-            return ncolor + format.format(sec) + tcolor + ":" + ncolor + format.format(sec60) + tcolor;
-        }
-        if (sec60 > 0) {
-            return ncolor + "00" + tcolor + ":" + ncolor + format.format(sec60) + tcolor;
+            return ncolor + format.format(sec) + tcolor;
         }
 
-        return ncolor + "less than a millisecond" + tcolor + "";
+        return ncolor + "00" + tcolor;
     }
 
     public static String formatTimeRaw(long ms) {
