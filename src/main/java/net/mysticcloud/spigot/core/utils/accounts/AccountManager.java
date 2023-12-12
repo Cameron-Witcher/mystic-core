@@ -33,11 +33,8 @@ public class AccountManager {
     public static void saveMysticPlayer(Player player) {
         MysticPlayer mp = getMysticPlayer(player.getUniqueId());
         mp.getData().put("last_seen", new Date().getTime());
-        int r1 = SQLUtils.getDatabase("mysticcloud").update("UPDATE players SET username=\"" + player.getName() + "\",ip=\"" + player.getAddress().getAddress().getHostAddress() + "\" WHERE uuid=\"" + player.getUniqueId() + "\";");
-        Bukkit.broadcastMessage("R1: " + r1);
-        if(r1 > 1){
-            boolean r2 = SQLUtils.getDatabase("mysticcloud").input("INSERT INTO players (uuid,username,ip,data) VALUES (\"" + player.getUniqueId() + "\",\"" + player.getName() + "\",\"" + player.getAddress().getAddress().getHostAddress() + "\",\"" + SQLUtils.escape(mp.getData().toString()) + "\");");
-            Bukkit.broadcastMessage("R2: " + r2);
+        if(SQLUtils.getDatabase("mysticcloud").update("UPDATE players SET username=\"" + player.getName() + "\",ip=\"" + player.getAddress().getAddress().getHostAddress() + "\" WHERE uuid=\"" + player.getUniqueId() + "\";") < 1){
+            SQLUtils.getDatabase("mysticcloud").input("INSERT INTO players (uuid,username,ip,data) VALUES (\"" + player.getUniqueId() + "\",\"" + player.getName() + "\",\"" + player.getAddress().getAddress().getHostAddress() + "\",\"" + SQLUtils.escape(mp.getData().toString()) + "\");");
         }
     }
 }
