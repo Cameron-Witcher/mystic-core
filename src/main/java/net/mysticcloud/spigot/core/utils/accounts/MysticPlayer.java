@@ -1,5 +1,6 @@
 package net.mysticcloud.spigot.core.utils.accounts;
 
+import org.bukkit.Bukkit;
 import org.json2.JSONObject;
 
 public class MysticPlayer {
@@ -19,6 +20,7 @@ public class MysticPlayer {
     }
 
     public void putData(String key, Object value){
+        Bukkit.broadcastMessage("Putting '" +key + "' as: " + value.toString());
         data.put(key, value);
     }
 
