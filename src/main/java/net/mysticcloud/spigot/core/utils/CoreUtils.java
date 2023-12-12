@@ -24,7 +24,7 @@ public class CoreUtils {
         Bukkit.getScheduler().runTaskLater(plugin, new Heartbeat(), 1);
         plugin.getConfig();
         RegionUtils.init();
-        SQLUtils.createDatabase("mysticcloud", SQLUtils.SQLDriver.MYSQL, "sql.vanillaflux.com", "mysticcloud", 3363, "root", "Butter_Fingers203");
+        SQLUtils.createDatabase("mysticcloud", SQLUtils.SQLDriver.MYSQL, "sql.vanillaflux.com", "mysticcloud", 3306, "mystic", "9ah#G@RjPc@@Riki");
     }
 
     public static void addPalpitation(Runnable runnable) {
