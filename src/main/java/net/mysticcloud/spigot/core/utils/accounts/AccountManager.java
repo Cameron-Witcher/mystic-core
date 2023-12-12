@@ -32,8 +32,8 @@ public class AccountManager {
 
     public static void saveMysticPlayer(Player player) {
         MysticPlayer mp = getMysticPlayer(player.getUniqueId());
-        mp.getData().put("last_seen", new Date().getTime());
-        if(SQLUtils.getDatabase("mysticcloud").update("UPDATE players SET username=\"" + player.getName() + "\",ip=\"" + player.getAddress().getAddress().getHostAddress() + "\" WHERE uuid=\"" + player.getUniqueId() + "\";") < 1){
+        mp.putData("last_seen", new Date().getTime());
+        if(SQLUtils.getDatabase("mysticcloud").update("UPDATE players SET username=\"" + player.getName() + "\",ip=\"" + player.getAddress().getAddress().getHostAddress() + "\",data=\"" + SQLUtils.escape(mp.getData().toString()) + "\" WHERE uuid=\"" + player.getUniqueId() + "\";") < 1){
             SQLUtils.getDatabase("mysticcloud").input("INSERT INTO players (uuid,username,ip,data) VALUES (\"" + player.getUniqueId() + "\",\"" + player.getName() + "\",\"" + player.getAddress().getAddress().getHostAddress() + "\",\"" + SQLUtils.escape(mp.getData().toString()) + "\");");
         }
     }
