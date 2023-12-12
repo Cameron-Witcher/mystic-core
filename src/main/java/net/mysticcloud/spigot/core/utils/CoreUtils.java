@@ -2,6 +2,7 @@ package net.mysticcloud.spigot.core.utils;
 
 import net.mysticcloud.spigot.core.MysticCore;
 import net.mysticcloud.spigot.core.utils.regions.RegionUtils;
+import net.mysticcloud.spigot.core.utils.sql.SQLUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -23,6 +24,7 @@ public class CoreUtils {
         Bukkit.getScheduler().runTaskLater(plugin, new Heartbeat(), 1);
         plugin.getConfig();
         RegionUtils.init();
+        SQLUtils.createDatabase("mysticcloud", SQLUtils.SQLDriver.MYSQL, "sql.vanillaflux.com", "mysticcloud", 3363, "root", "Butter_Fingers203");
     }
 
     public static void addPalpitation(Runnable runnable) {

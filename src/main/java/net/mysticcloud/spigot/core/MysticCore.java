@@ -3,6 +3,7 @@ package net.mysticcloud.spigot.core;
 import net.mysticcloud.spigot.core.commands.AdminCommands;
 import net.mysticcloud.spigot.core.listeners.ChatListener;
 import net.mysticcloud.spigot.core.listeners.InteractionListener;
+import net.mysticcloud.spigot.core.listeners.ServerListener;
 import net.mysticcloud.spigot.core.listeners.channels.MessageListener;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import org.bukkit.Bukkit;
@@ -20,6 +21,7 @@ public class MysticCore extends JavaPlugin {
 
         new ChatListener(this);
         new InteractionListener(this);
+        new ServerListener(this);
 
         new AdminCommands(this, "update", "kick", "region", "sudo");
     }
