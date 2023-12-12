@@ -17,6 +17,9 @@ public class PlaceholderUtils {
 
     public static void registerPlaceholders() {
         registerPlaceholder("name", Player::getName);
+        registerPlaceholder("online", (player) -> {
+            return Bukkit.getOnlinePlayers().size() + "";
+        });
 
     }
 
@@ -53,13 +56,11 @@ public class PlaceholderUtils {
         String tag = string;
         while (tag.contains("%bold:")) {
             String icon = tag.split("old:")[1].split("%")[0];
-            tag = tag.replaceAll("%bold:" + icon + "%",
-                    ChatColor.BOLD + icon + ChatColor.getLastColors(tag.split("%bold")[0]));
+            tag = tag.replaceAll("%bold:" + icon + "%", ChatColor.BOLD + icon + ChatColor.getLastColors(tag.split("%bold")[0]));
         }
         while (tag.contains("%upper:")) {
             String icon = tag.split("pper:")[1].split("%")[0];
-            tag = tag.replaceAll("%upper:" + icon + "%",
-                    icon.contains("%") ? replace(player, icon).toUpperCase() : icon.toUpperCase());
+            tag = tag.replaceAll("%upper:" + icon + "%", icon.contains("%") ? replace(player, icon).toUpperCase() : icon.toUpperCase());
         }
         while (tag.contains("%fade:")) {
             String from = tag.split(":")[1];
