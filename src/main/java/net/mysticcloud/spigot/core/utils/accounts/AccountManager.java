@@ -18,13 +18,13 @@ public class AccountManager {
 
     public static MysticPlayer getMysticPlayer(UUID uid) {
         if (mysticPlayers.containsKey(uid)) return mysticPlayers.get(uid);
-        MysticPlayer mysticPlayer;
+        MysticPlayer mysticPlayer= null;
         try {
             ResultSet rs = SQLUtils.getDatabase("mysticcloud").query("SELECT * FROM players WHERE uuid='" + uid + "';");
             if (rs != null) while (rs.next()) mysticPlayer = new MysticPlayer(new JSONObject(rs.getString("data")));
         } catch (SQLException ignored) {
         }
-        mysticPlayer = new MysticPlayer();
+        mysticPlayer = mysticPlayer == null ? new MysticPlayer() : mysticPlayer;
         mysticPlayers.put(uid, mysticPlayer);
         return mysticPlayer;
 
