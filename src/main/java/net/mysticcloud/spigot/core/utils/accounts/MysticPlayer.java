@@ -20,7 +20,6 @@ public class MysticPlayer {
     }
 
     public void putData(String key, Object value){
-        Bukkit.broadcastMessage("Putting '" +key + "' as: " + value.toString());
         data.put(key, value);
     }
 
