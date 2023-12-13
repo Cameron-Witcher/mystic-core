@@ -114,13 +114,13 @@ public class GuiItem {
                 if (meta.hasLore()) for (String a : meta.getLore())
                     tmp.add(a);
                 for (String a : lore) {
-                    tmp.add(PlaceholderUtils.replace(player, a));
+                    tmp.add(MessageUtils.colorize(PlaceholderUtils.replace(player, a)));
                 }
                 meta.setLore(tmp);
             }
             if (meta != null) {
                 meta.addItemFlags(ItemFlag.values());
-                meta.setDisplayName(PlaceholderUtils.replace(player, display_name));
+                meta.setDisplayName(MessageUtils.colorize(PlaceholderUtils.replace(player, display_name)));
                 item.setItemMeta(meta);
             }
             this.storedItem = item;
