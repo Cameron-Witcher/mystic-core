@@ -14,3 +14,8 @@ commands:
     description: Region command.
   sudo:
     description: Control another player
+  inventory:
+    usage: /inventory <inventory>
+    aliases:
+      - inv
+      - gui
