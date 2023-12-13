@@ -28,7 +28,6 @@ public class GuiItem {
     JSONObject action = new JSONObject();
     JSONArray actions = new JSONArray();
     boolean does_action = false;
-    ItemStack storedItem = null;
 
     public GuiItem(String id) {
         this.id = id;
@@ -107,27 +106,25 @@ public class GuiItem {
     }
 
     public ItemStack getItem(Player player) {
-        if (storedItem == null) {
-            ItemStack item = new ItemStack(mat);
-            ItemMeta meta = item.getItemMeta();
-            if (lore != null) {
-                List<String> tmp = new ArrayList<>();
-                if (meta.hasLore()) for (String a : meta.getLore())
-                    tmp.add(a);
-                for (String a : lore) {
-                    tmp.add(MessageUtils.colorize(PlaceholderUtils.replace(player, a)));
-                }
-                meta.setLore(tmp);
+        ItemStack item = new ItemStack(mat);
+        ItemMeta meta = item.getItemMeta();
+        if (lore != null) {
+            List<String> tmp = new ArrayList<>();
+            if (meta.hasLore()) for (String a : meta.getLore())
+                tmp.add(a);
+            for (String a : lore) {
+                tmp.add(MessageUtils.colorize(PlaceholderUtils.replace(player, a)));
             }
-            if (meta != null) {
-
-                meta.addItemFlags(ItemFlag.values());
-                meta.setDisplayName(MessageUtils.colorize(PlaceholderUtils.replace(player, display_name)));
-                item.setItemMeta(meta);
-            }
-            this.storedItem = item;
+            meta.setLore(tmp);
         }
-        return this.storedItem.clone();
+        if (meta != null) {
+
+            meta.addItemFlags(ItemFlag.values());
+            meta.setDisplayName(MessageUtils.colorize(PlaceholderUtils.replace(player, display_name)));
+            item.setItemMeta(meta);
+
+        }
+        return item.clone();
     }
 
     public boolean hasAction() {

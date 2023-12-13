@@ -74,7 +74,7 @@ public class GuiManager {
         return invTracker.getOrDefault(player.getUniqueId(), null);
     }
 
-    public static void switchGui(Player player, GuiInventory gui) {
+    public static void switchGui(Player player, final GuiInventory gui) {
         if (gui == null) return;
 
         player.setMetadata("switchinv", new FixedMetadataValue(CoreUtils.getPlugin(), "yup"));
