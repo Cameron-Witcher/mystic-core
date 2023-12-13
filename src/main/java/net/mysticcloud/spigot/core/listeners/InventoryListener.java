@@ -12,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.json2.JSONObject;
 
 public class InventoryListener implements Listener {
@@ -24,21 +23,21 @@ public class InventoryListener implements Listener {
     @EventHandler
     public void onPlayerCloseInventory(InventoryCloseEvent e) {
         if (!e.getPlayer().hasMetadata("switchinv")) {
-            GuiManager.closeInventory((Player) e.getPlayer());
+            GuiManager.closeGui((Player) e.getPlayer());
         }
     }
 
     @EventHandler
     public void onPlayerInventory(InventoryClickEvent e) {
 
-        if (((GuiManager.getGuis().containsKey(GuiManager.getOpenInventory((Player) e.getWhoClicked()))))) {
+        if (((GuiManager.getGuis().containsKey(GuiManager.getOpenGui((Player) e.getWhoClicked()).getId())))) {
             e.setCancelled(true);
             if (e.getCurrentItem() == null) return;
             if (e.getCurrentItem().getType() == Material.AIR || e.getCurrentItem().getType() == null) return;
             if (!e.getCurrentItem().hasItemMeta()) return;
 
-            if (GuiManager.getGuis().get(GuiManager.getOpenInventory((Player) e.getWhoClicked())).hasItem(e.getCurrentItem(), (Player) e.getWhoClicked())) {
-                GuiItem item = GuiManager.getGuis().get(GuiManager.getOpenInventory((Player) e.getWhoClicked())).getItem(e.getCurrentItem(), (Player) e.getWhoClicked());
+            if (GuiManager.getGuis().get(GuiManager.getOpenGui((Player) e.getWhoClicked()).getId()).hasItem(e.getCurrentItem(), (Player) e.getWhoClicked())) {
+                GuiItem item = GuiManager.getGuis().get(GuiManager.getOpenGui((Player) e.getWhoClicked()).getId()).getItem(e.getCurrentItem(), (Player) e.getWhoClicked());
                 if (item.hasAction()) {
                     if (item.isSingleAction()) {
                         item.processAction((Player) e.getWhoClicked());

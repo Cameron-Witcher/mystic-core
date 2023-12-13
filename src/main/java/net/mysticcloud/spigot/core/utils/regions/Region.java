@@ -25,16 +25,20 @@ public class Region {
         this.z2 = z2;
     }
 
-    public void setPos1(Vector vec) {
+    public boolean setPos1(Vector vec) {
+        if (x1 == vec.getX() && y1 == vec.getY() && z1 == vec.getZ())return false;
         x1 = (int) vec.getX();
         y1 = (int) vec.getY();
         z1 = (int) vec.getZ();
+        return true;
     }
 
-    public void setPos2(Vector vec) {
+    public boolean setPos2(Vector vec) {
+        if(x2 == vec.getX() && y2 == vec.getY() && z2 == vec.getZ())return false;
         x2 = (int) vec.getX();
         y2 = (int) vec.getY();
         z2 = (int) vec.getZ();
+        return true;
     }
 
     public int getX1() {

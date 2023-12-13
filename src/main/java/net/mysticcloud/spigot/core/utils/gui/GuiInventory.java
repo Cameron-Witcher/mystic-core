@@ -12,32 +12,36 @@ import org.bukkit.inventory.ItemStack;
 
 public class GuiInventory {
 
-    String name;
+    String id;
     String display_name = "";
     String config = "xxxxxx";
     int size = 9;
     Map<String, GuiItem> items = new HashMap<>();
 
     @Deprecated
-    public GuiInventory(String name) {
-        this.name = name;
+    public GuiInventory(String id) {
+        this.id = id;
     }
 
     @Deprecated
-    public GuiInventory(String name, String display_name) {
-        this(name);
+    public GuiInventory(String id, String display_name) {
+        this(id);
         this.display_name = display_name;
     }
 
     @Deprecated
-    public GuiInventory(String name, String display_name, int size) {
-        this(name, display_name);
+    public GuiInventory(String id, String display_name, int size) {
+        this(id, display_name);
         this.size = size;
     }
 
-    public GuiInventory(String name, String display_name, int size, String config) {
-        this(name, display_name, size);
+    public GuiInventory(String id, String display_name, int size, String config) {
+        this(id, display_name, size);
         this.config = config;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void addItem(String identifier, GuiItem item) {

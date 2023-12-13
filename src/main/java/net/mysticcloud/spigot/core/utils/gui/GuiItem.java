@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -119,6 +120,7 @@ public class GuiItem {
                 meta.setLore(tmp);
             }
             if (meta != null) {
+
                 meta.addItemFlags(ItemFlag.values());
                 meta.setDisplayName(MessageUtils.colorize(PlaceholderUtils.replace(player, display_name)));
                 item.setItemMeta(meta);
@@ -176,7 +178,7 @@ public class GuiItem {
                 return true;
             case "open_gui":
                 try {
-                    GuiManager.openInventory(player, GuiManager.getGui(action.getString("gui")).getInventory(player), action.getString("gui"));
+                    GuiManager.openGui(player, GuiManager.getGui(action.getString("gui")));
                 } catch (NullPointerException ex) {
                     player.sendMessage(MessageUtils.prefixes("gui") + "There was an error opening that GUI. Does it exist?");
                 }
@@ -196,7 +198,9 @@ public class GuiItem {
         }
         if (action.has("error_message"))
             player.sendMessage(PlaceholderUtils.replace(player, action.getString("error_message")));
-        return false;
-    }
 
+
+        return false;
+
+    }
 }

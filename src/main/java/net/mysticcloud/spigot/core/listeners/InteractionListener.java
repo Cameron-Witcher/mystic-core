@@ -24,15 +24,15 @@ public class InteractionListener implements Listener {
             if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
                 Vector vec = new Vector(e.getClickedBlock().getX(), e.getClickedBlock().getY(), e.getClickedBlock().getZ());
                 Region r = RegionUtils.getRegion(e.getPlayer().getUniqueId());
-                r.setPos1(vec);
-                e.getPlayer().sendMessage(MessageUtils.colorize("&cPosition 1 set: (" + vec.getX() + ", " + vec.getY() + ", " + vec.getZ() + ") (" + r.getArea() + ")"));
+                if (r.setPos1(vec))
+                    e.getPlayer().sendMessage(MessageUtils.colorize("&cPosition 1 set: (" + vec.getX() + ", " + vec.getY() + ", " + vec.getZ() + ") (" + r.getArea() + ")"));
                 e.setCancelled(true);
             }
             if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                 Vector vec = new Vector(e.getClickedBlock().getX(), e.getClickedBlock().getY(), e.getClickedBlock().getZ());
                 Region r = RegionUtils.getRegion(e.getPlayer().getUniqueId());
-                r.setPos2(vec);
-                e.getPlayer().sendMessage(MessageUtils.colorize("&cPosition 2 set: (" + vec.getX() + ", " + vec.getY() + ", " + vec.getZ() + ") (" + r.getArea() + ")"));
+                if (r.setPos2(vec))
+                    e.getPlayer().sendMessage(MessageUtils.colorize("&cPosition 2 set: (" + vec.getX() + ", " + vec.getY() + ", " + vec.getZ() + ") (" + r.getArea() + ")"));
                 e.setCancelled(true);
             }
 

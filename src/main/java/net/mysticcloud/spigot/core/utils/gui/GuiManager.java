@@ -20,8 +20,8 @@ import org.json2.JSONObject;
 
 public class GuiManager {
 
-    private static Map<UUID, String> invTracker = new HashMap<>();
-    private static Map<String, GuiInventory> guis = new HashMap<>();
+    private static final Map<UUID, GuiInventory> invTracker = new HashMap<>();
+    private static final Map<String, GuiInventory> guis = new HashMap<>();
     private static File guiFolder = null;
 
     public static void init() {
@@ -51,14 +51,14 @@ public class GuiManager {
         }
     }
 
-    public static void openInventory(Player player, Inventory inventory, String title) {
-        if (inventory == null) return;
+    public static void openGui(Player player, GuiInventory gui){
+        if(gui == null) return;
         if (invTracker.containsKey(player.getUniqueId())) {
-            switchInventory(player, inventory, title);
+            switchGui(player, gui);
             return;
         }
-        player.openInventory(inventory);
-        invTracker.put(player.getUniqueId(), title);
+        player.openInventory(gui.getInventory(player));
+        invTracker.put(player.getUniqueId(), gui);
     }
 
     public static Map<String, GuiInventory> getGuis() {
@@ -70,33 +70,33 @@ public class GuiManager {
     }
 
 
-    public static String getOpenInventory(Player player) {
-        return invTracker.containsKey(player.getUniqueId()) ? invTracker.get(player.getUniqueId()) : "none";
+    public static GuiInventory getOpenGui(Player player) {
+        return invTracker.getOrDefault(player.getUniqueId(), null);
     }
 
-    public static void switchInventory(Player player, Inventory inventory, String title) {
-        if (inventory == null) return;
+    public static void switchGui(Player player, GuiInventory gui) {
+        if (gui == null) return;
 
         player.setMetadata("switchinv", new FixedMetadataValue(CoreUtils.getPlugin(), "yup"));
 //        player.openInventory(getGuis().get(invTracker.get(player.getUniqueId())).getInventory(player));
-        invTracker.put(player.getUniqueId(), "waiting");
+        invTracker.put(player.getUniqueId(), getGui("waiting"));
         player.openInventory(getGui("waiting").getInventory(player));
         Bukkit.getScheduler().runTaskLater(CoreUtils.getPlugin(), new Runnable() {
 
             @Override
             public void run() {
-                player.openInventory(inventory);
-                invTracker.put(player.getUniqueId(), title);
+                player.openInventory(gui.getInventory(player));
+                invTracker.put(player.getUniqueId(), gui);
                 player.removeMetadata("switchinv", CoreUtils.getPlugin());
             }
 
         }, 5);
     }
 
-    public static void closeInventory(Player player) {
+    public static void closeGui(Player player) {
         if (invTracker.containsKey(player.getUniqueId())) {
-            if (invTracker.get(player.getUniqueId()) != "none") {
-                invTracker.put(player.getUniqueId(), "none");
+            if (!invTracker.get(player.getUniqueId()).equals("none")) {
+                invTracker.remove(player.getUniqueId());
                 player.closeInventory();
             }
 
@@ -104,7 +104,7 @@ public class GuiManager {
             try {
             } catch (Exception ex) {
             }
-            invTracker.put(player.getUniqueId(), "none");
+            invTracker.remove(player.getUniqueId());
         }
 
     }
