@@ -61,9 +61,9 @@ public class GuiManager {
         invTracker.put(player.getUniqueId(), title);
     }
 
-//    public static Map<String, GuiInventory> getGuis() {
-//        return guis;
-//    }
+    public static Map<String, GuiInventory> getGuis() {
+        return guis;
+    }
 
     public static GuiInventory getGui(String name){
         return guis.getOrDefault(name, null);

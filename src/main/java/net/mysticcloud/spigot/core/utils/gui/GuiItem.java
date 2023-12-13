@@ -176,7 +176,7 @@ public class GuiItem {
                 return true;
             case "open_gui":
                 try {
-                    GuiManager.openInventory(player, GuiManager.getGuis().get(action.getString("gui")).getInventory(player), action.getString("gui"));
+                    GuiManager.openInventory(player, GuiManager.getGui(action.getString("gui")).getInventory(player), action.getString("gui"));
                 } catch (NullPointerException ex) {
                     player.sendMessage(MessageUtils.prefixes("gui") + "There was an error opening that GUI. Does it exist?");
                 }

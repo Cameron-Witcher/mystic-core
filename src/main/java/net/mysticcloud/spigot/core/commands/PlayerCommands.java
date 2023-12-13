@@ -32,7 +32,7 @@ public class PlayerCommands implements CommandExecutor {
                     return true;
                 }
                 try {
-                    GuiManager.openInventory(opener, GuiManager.getGuis().get(args[0]).getInventory(opener), args[0]);
+                    GuiManager.openInventory(opener, GuiManager.getGui(args[0]).getInventory(opener), args[0]);
                 } catch (NullPointerException ex) {
                     sender.sendMessage(MessageUtils.prefixes("gui") + "There was an error opening that GUI. Does it exist?");
                     ex.printStackTrace();
