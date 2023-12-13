@@ -33,56 +33,64 @@ public class GuiItem {
         this.id = id;
     }
 
-    public void setDisplayName(String display_name) {
+    public GuiItem setDisplayName(String display_name) {
         this.display_name = display_name;
+        return this;
     }
 
-    public void setMaterial(Material mat) {
+    public GuiItem setMaterial(Material mat) {
         this.mat = mat;
+        return this;
     }
 
-    public void setLore(List<String> lore) {
+    public GuiItem setLore(List<String> lore) {
         this.lore = lore;
+        return this;
     }
 
-    public void setSingleAction(boolean single_action) {
+    public GuiItem setSingleAction(boolean single_action) {
         this.single_action = single_action;
+        return this;
     }
 
     public boolean isSingleAction() {
         return single_action;
     }
 
-    public void setBuyPrice(String string) {
+    public GuiItem setBuyPrice(String string) {
         try {
             buy = Double.parseDouble(string);
         } catch (NumberFormatException ex) {
         }
+        return this;
     }
 
     public double getBuyPrice() {
         return buy;
     }
 
-    public void setSellPrice(String string) {
+    public GuiItem setSellPrice(String string) {
         try {
             sell = Double.parseDouble(string);
         } catch (NumberFormatException ex) {
         }
+        return this;
     }
 
     public double getSellPrice() {
         return sell;
     }
 
-    public void setSingleAction(JSONObject json) {
+    public GuiItem setSingleAction(JSONObject json) {
         does_action = true;
         this.action = json;
+        return this;
     }
 
-    public void setActions(JSONArray actions) {
+    public GuiItem setActions(JSONArray actions) {
         does_action = true;
         this.actions = actions;
+        return this;
     }
 
     public JSONObject getAction() {

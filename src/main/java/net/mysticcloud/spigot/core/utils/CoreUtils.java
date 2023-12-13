@@ -1,6 +1,7 @@
 package net.mysticcloud.spigot.core.utils;
 
 import net.mysticcloud.spigot.core.MysticCore;
+import net.mysticcloud.spigot.core.utils.gui.GuiManager;
 import net.mysticcloud.spigot.core.utils.placeholder.PlaceholderUtils;
 import net.mysticcloud.spigot.core.utils.regions.RegionUtils;
 import net.mysticcloud.spigot.core.utils.sql.SQLUtils;
@@ -27,6 +28,7 @@ public class CoreUtils {
         plugin.getConfig();
         RegionUtils.init();
         SQLUtils.createDatabase("mysticcloud", SQLUtils.SQLDriver.MYSQL, "sql.vanillaflux.com", "mysticcloud", 3306, "mystic", "9ah#G@RjPc@@Riki");
+        GuiManager.init();
 
     }
 
