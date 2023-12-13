@@ -61,8 +61,12 @@ public class GuiManager {
         invTracker.put(player.getUniqueId(), title);
     }
 
-    public static Map<String, GuiInventory> getGuis() {
-        return guis;
+//    public static Map<String, GuiInventory> getGuis() {
+//        return guis;
+//    }
+
+    public static GuiInventory getGui(String name){
+        return guis.getOrDefault(name, null);
     }
 
 
@@ -74,8 +78,9 @@ public class GuiManager {
         if (inventory == null) return;
 
         player.setMetadata("switchinv", new FixedMetadataValue(CoreUtils.getPlugin(), "yup"));
-        player.openInventory(getGuis().get(invTracker.get(player.getUniqueId())).getInventory(player));
+//        player.openInventory(getGuis().get(invTracker.get(player.getUniqueId())).getInventory(player));
         invTracker.put(player.getUniqueId(), "waiting");
+        player.openInventory(getGui("waiting").getInventory(player));
         Bukkit.getScheduler().runTaskLater(CoreUtils.getPlugin(), new Runnable() {
 
             @Override
