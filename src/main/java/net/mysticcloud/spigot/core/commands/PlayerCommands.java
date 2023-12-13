@@ -1,7 +1,7 @@
 package net.mysticcloud.spigot.core.commands;
 
 import net.mysticcloud.spigot.core.MysticCore;
-import net.mysticcloud.spigot.core.commands.listeners.AdminCommandTabCompleter;
+import net.mysticcloud.spigot.core.commands.listeners.PlayerTabCompleter;
 import net.mysticcloud.spigot.core.utils.MessageUtils;
 import net.mysticcloud.spigot.core.utils.gui.GuiManager;
 import org.bukkit.Bukkit;
@@ -17,7 +17,7 @@ public class PlayerCommands implements CommandExecutor {
         for (String s : cmd) {
             PluginCommand com = plugin.getCommand(s);
             com.setExecutor(this);
-            com.setTabCompleter(new AdminCommandTabCompleter());
+            com.setTabCompleter(new PlayerTabCompleter());
         }
     }
 

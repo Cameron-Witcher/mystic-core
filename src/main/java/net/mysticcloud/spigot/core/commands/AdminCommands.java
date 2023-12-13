@@ -4,8 +4,6 @@ import net.mysticcloud.spigot.core.utils.InfringementUtils;
 import net.mysticcloud.spigot.core.utils.MessageUtils;
 import net.mysticcloud.spigot.core.utils.regions.RegionUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,13 +12,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import net.mysticcloud.spigot.core.MysticCore;
-import net.mysticcloud.spigot.core.commands.listeners.AdminCommandTabCompleter;
+import net.mysticcloud.spigot.core.commands.listeners.AdminTabCompleter;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
-import org.bukkit.util.Vector;
-import org.json2.JSONArray;
-import org.json2.JSONObject;
-
-import java.util.Map;
 
 public class AdminCommands implements CommandExecutor {
 
@@ -28,7 +21,7 @@ public class AdminCommands implements CommandExecutor {
         for (String s : cmd) {
             PluginCommand com = plugin.getCommand(s);
             com.setExecutor(this);
-            com.setTabCompleter(new AdminCommandTabCompleter());
+            com.setTabCompleter(new AdminTabCompleter());
         }
     }
 

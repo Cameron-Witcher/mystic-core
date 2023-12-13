@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -15,11 +14,11 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.StringUtil;
 
 
-public class AdminCommandTabCompleter implements TabCompleter {
+public class AdminTabCompleter implements TabCompleter {
 
     Map<String, List<String>> cmds = new HashMap<>();
 
-    public AdminCommandTabCompleter() {
+    public AdminTabCompleter() {
 
 
     }
