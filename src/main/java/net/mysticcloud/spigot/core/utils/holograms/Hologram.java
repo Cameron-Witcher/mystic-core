@@ -35,7 +35,7 @@ public class Hologram {
         for (int i = 0; i != lines.size(); i++) {
             Display disp = lines.get(i);
 
-            disp.teleport(loc.clone().add(0, -0.2 * i, 0));
+            disp.teleport(loc.clone().add(0, -0.26 * i, 0));
         }
     }
 }
