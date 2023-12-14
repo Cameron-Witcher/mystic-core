@@ -35,7 +35,8 @@ public class ClassicHologram {
             stand.setGravity(false);
             stand.setInvulnerable(true);
             stand.setCustomNameVisible(true);
-
+            stand.setSmall(true);
+            stand.setCollidable(false);
         }
         lines.put(line, message);
         stand.setCustomName(MessageUtils.colorize(PlaceholderUtils.replace(null, message)));
