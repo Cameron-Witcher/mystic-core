@@ -2,6 +2,8 @@ package net.mysticcloud.spigot.core.utils;
 
 import net.mysticcloud.spigot.core.MysticCore;
 import net.mysticcloud.spigot.core.utils.gui.GuiManager;
+import net.mysticcloud.spigot.core.utils.holograms.Hologram;
+import net.mysticcloud.spigot.core.utils.holograms.HologramManager;
 import net.mysticcloud.spigot.core.utils.placeholder.PlaceholderUtils;
 import net.mysticcloud.spigot.core.utils.regions.RegionUtils;
 import net.mysticcloud.spigot.core.utils.sql.SQLUtils;
@@ -73,6 +75,7 @@ public class CoreUtils {
                 }
             }
         }
+
         return (path.delete());
     }
 
