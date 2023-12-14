@@ -31,6 +31,7 @@ public class ClassicHologram {
             stand.setGravity(false);
             stand.setInvulnerable(true);
             stand.setCustomNameVisible(true);
+            lines.add(stand);
         }
         if (stand.hasMetadata("info")) stand.removeMetadata("info", CoreUtils.getPlugin());
         stand.setMetadata("info", new FixedMetadataValue(CoreUtils.getPlugin(), message));
