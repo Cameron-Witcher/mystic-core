@@ -10,7 +10,6 @@
 		<rootdir>/</rootdir>
 	</properties>
 	<url>http://www.mysticcloud.net</url>
-
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
