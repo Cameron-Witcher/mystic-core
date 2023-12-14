@@ -17,7 +17,7 @@ public class Hologram {
     }
 
     public void setLine(int line, Display content) {
-        if (lines.size()+1 >= line) lines.set(line, content);
+        if (lines.size() > line) lines.set(line, content);
         else lines.add(line, content);
         update();
     }
