@@ -9,10 +9,14 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Display;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class ClassicHologram {
-    LinkedList<ArmorStand> lines = new LinkedList<>();
+    Map<Integer, String> lines = new HashMap<>();
+    Map<Integer, ArmorStand> stands = new HashMap<>();
+//    LinkedList<ArmorStand> lines = new LinkedList<>();
 
     Location loc;
     UID uid;
@@ -24,19 +28,18 @@ public class ClassicHologram {
 
     public void setLine(int line, String message) {
         ArmorStand stand;
-        if (lines.size() > line) stand = lines.get(line);
+        if(lines.containsKey(line)) stand = stands.get(line);
         else {
             stand = loc.getWorld().spawn(loc, ArmorStand.class);
             stand.setInvisible(true);
             stand.setGravity(false);
             stand.setInvulnerable(true);
             stand.setCustomNameVisible(true);
-            lines.add(stand);
-        }
-        if (stand.hasMetadata("info")) stand.removeMetadata("info", CoreUtils.getPlugin());
-        stand.setMetadata("info", new FixedMetadataValue(CoreUtils.getPlugin(), message));
-        stand.setCustomName(MessageUtils.colorize(PlaceholderUtils.replace(null, message)));
 
+        }
+        lines.put(line, message);
+        stand.setCustomName(MessageUtils.colorize(PlaceholderUtils.replace(null, message)));
+        stands.put(line,stand);
         update();
     }
 
@@ -45,15 +48,14 @@ public class ClassicHologram {
     }
 
     public String getLine(int i) {
-        return lines.get(i).getCustomName();
+        return lines.get(i);
     }
 
     public void update() {
-
-        for (int i = 0; i != lines.size(); i++) {
-            ArmorStand disp = lines.get(i);
-            disp.teleport(loc.clone().add(0, -0.26 * i, 0));
-
+        for(Map.Entry<Integer, String> e : lines.entrySet()){
+            ArmorStand stand = stands.get(e.getKey());
+            stand.setCustomName(MessageUtils.colorize(PlaceholderUtils.replace(null, e.getValue())));
+            stand.teleport(loc.clone().add(0, -0.26 * e.getKey(), 0));
         }
     }
 }
