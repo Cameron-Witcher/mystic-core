@@ -30,7 +30,7 @@ public class InventoryListener implements Listener {
     @EventHandler
     public void onPlayerInventory(InventoryClickEvent e) {
 
-        if (((GuiManager.getGuis().containsKey(GuiManager.getOpenGui((Player) e.getWhoClicked()).getId())))) {
+        if (GuiManager.getOpenGui((Player) e.getWhoClicked()) != null && ((GuiManager.getGuis().containsKey(GuiManager.getOpenGui((Player) e.getWhoClicked()).getId())))) {
             e.setCancelled(true);
             if (e.getCurrentItem() == null) return;
             if (e.getCurrentItem().getType() == Material.AIR || e.getCurrentItem().getType() == null) return;
