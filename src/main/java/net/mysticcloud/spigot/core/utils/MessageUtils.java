@@ -127,10 +127,10 @@ public class MessageUtils {
             return ncolor + format.format(min) + tcolor + ":" + ncolor + format.format(sec) + tcolor;
         }
         if (sec > 0) {
-            return ncolor + format.format(sec) + tcolor;
+            return ncolor + "00" + tcolor + ":" + ncolor + format.format(sec) + tcolor;
         }
 
-        return ncolor + "00" + tcolor;
+        return ncolor + "00" + tcolor + ":" + ncolor + "00" + tcolor;
     }
 
     public static String formatTimeRaw(long ms) {
