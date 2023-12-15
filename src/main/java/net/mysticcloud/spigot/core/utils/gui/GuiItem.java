@@ -130,7 +130,7 @@ public class GuiItem {
                     int price = action.has("price") ? action.getInt("price") : 1;
                     if (action.getString("buy_type").equalsIgnoreCase("inventory")) {
                         Material mat = Material.valueOf(action.getString("item"));
-                        return consumeItem(player, amount, mat);
+                        return consumeItem(player, price, mat);
                     }
 //                if (action.getString("buy_type").equalsIgnoreCase("economy")) {
 //                    if (Utils.getEconomy().has(player, price)) {
