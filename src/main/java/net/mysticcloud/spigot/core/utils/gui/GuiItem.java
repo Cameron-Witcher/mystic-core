@@ -100,7 +100,7 @@ public class GuiItem {
     }
 
     public boolean hasAction() {
-        return does_action;
+        return actions.length() != 0;
     }
 
     public boolean processActions(Player player, ClickType type) {

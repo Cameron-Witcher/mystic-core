@@ -93,7 +93,7 @@ public class GuiInventory {
     }
 
     protected void close(Player player) {
-        player.closeInventory();
+        if (player.getOpenInventory() != null) player.closeInventory();
         storedItems.remove(player);
     }
 }
