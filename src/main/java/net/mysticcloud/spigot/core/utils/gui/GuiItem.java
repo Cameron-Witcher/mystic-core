@@ -103,14 +103,19 @@ public class GuiItem {
     }
 
     public boolean processActions(Player player, ClickType type) {
-        for (int i = 0; i < actions.length(); i++)
+        Bukkit.broadcastMessage("Doing action");
+        for (int i = 0; i < actions.length(); i++){
+            Bukkit.broadcastMessage("Action " + i);
             if (!processAction(player, actions.getJSONObject(i), type)) return false;
+        }
 
         return true;
     }
 
     private boolean processAction(Player player, JSONObject action, ClickType click) {
+        Bukkit.broadcastMessage("Processing");
         if ((action.has("click") && ClickType.valueOf(action.getString("click")).equals(click)) || !action.has("click")) {
+            Bukkit.broadcastMessage("Click checked out");
             switch (action.getString("action").toLowerCase()) {
                 case "sound":
                     player.playSound(player.getLocation(), Sound.valueOf(action.getString("sound")), 10F, 1F);
@@ -167,6 +172,7 @@ public class GuiItem {
                 player.sendMessage(PlaceholderUtils.replace(player, action.getString("error_message")));
 
         }
+        Bukkit.broadcastMessage("Failed");
         return false;
 
     }
