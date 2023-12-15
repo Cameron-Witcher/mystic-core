@@ -50,8 +50,9 @@ public class GuiItem {
         return this;
     }
 
-    public void setAmount(int i){
+    public GuiItem setAmount(int i){
         this.amount = i;
+        return this;
     }
 
     public int getAmount(){
