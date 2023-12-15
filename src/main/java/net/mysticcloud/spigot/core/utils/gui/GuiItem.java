@@ -22,12 +22,9 @@ public class GuiItem {
     String display_name = "default_name";
     Material mat = Material.GRASS_BLOCK;
     List<String> lore = null;
-    boolean single_action = false;
-    double buy = 0;
-    double sell = 0;
-    JSONObject action = new JSONObject();
     JSONArray actions = new JSONArray();
     boolean does_action = false;
+    int amount = 1;
 
     public GuiItem(String id) {
         this.id = id;
@@ -48,44 +45,19 @@ public class GuiItem {
         return this;
     }
 
-    public GuiItem setSingleAction(boolean single_action) {
-        this.single_action = single_action;
+    public GuiItem addAction(JSONObject action) {
+        this.actions.put(action);
         return this;
     }
 
-    public boolean isSingleAction() {
-        return single_action;
+    public void setAmount(int i){
+        this.amount = i;
     }
 
-    public GuiItem setBuyPrice(String string) {
-        try {
-            buy = Double.parseDouble(string);
-        } catch (NumberFormatException ex) {
-        }
-        return this;
+    public int getAmount(){
+        return amount;
     }
 
-    public double getBuyPrice() {
-        return buy;
-    }
-
-    public GuiItem setSellPrice(String string) {
-        try {
-            sell = Double.parseDouble(string);
-        } catch (NumberFormatException ex) {
-        }
-        return this;
-    }
-
-    public double getSellPrice() {
-        return sell;
-    }
-
-    public GuiItem setSingleAction(JSONObject json) {
-        does_action = true;
-        this.action = json;
-        return this;
-    }
 
     public GuiItem setActions(JSONArray actions) {
         does_action = true;
@@ -93,9 +65,6 @@ public class GuiItem {
         return this;
     }
 
-    public JSONObject getAction() {
-        return action;
-    }
 
     public JSONArray getActions() {
         return actions;
@@ -124,22 +93,27 @@ public class GuiItem {
             item.setItemMeta(meta);
 
         }
-        return item.clone();
+        item.setAmount(amount);
+        return item;
     }
 
     public boolean hasAction() {
         return does_action;
     }
 
-    public boolean processAction(Player player) {
-        return processAction(player, action);
+    public boolean processActions(Player player, ClickType type) {
+        for (int i = 0; i < actions.length(); i++)
+            if (!processAction(player, actions.getJSONObject(i), type)) return false;
+
+        return true;
     }
 
-    public boolean processAction(Player player, JSONObject action) {
-        switch (action.getString("action").toLowerCase()) {
-            case "sound":
-                player.playSound(player.getLocation(), Sound.valueOf(action.getString("sound")), 10F, 1F);
-                return true;
+    private boolean processAction(Player player, JSONObject action, ClickType click) {
+        if ((action.has("click") && ClickType.valueOf(action.getString("click")).equals(click)) || !action.has("click")) {
+            switch (action.getString("action").toLowerCase()) {
+                case "sound":
+                    player.playSound(player.getLocation(), Sound.valueOf(action.getString("sound")), 10F, 1F);
+                    return true;
 //            case "sell":
 //                ItemStack t = getItem(player);
 //                if (action.has("amount"))
@@ -150,54 +124,57 @@ public class GuiItem {
 //                    return true;
 //                } else
 //                    return false;
-//            case "buy":
-//                int amount = action.has("amount") ? Integer.parseInt(action.getString("amount")) : 1;
-//                double price = getBuyPrice() * amount;
-//                if (Utils.getEconomy().has(player, price)) {
-//                    Utils.getEconomy().withdrawPlayer(player, price);
-//                    if (action.has("item")) {
-//                        ItemStack i = decodeItem(Utils.setPlaceholders(player, action.getString("item")));
-//                        i.setAmount(amount);
-//                        player.getInventory().addItem(i);
+                case "buy":
+                    int price = action.has("price") ? Integer.parseInt(action.getString("price")) : 1;
+                    if (action.getString("buy_type").equalsIgnoreCase("inventory")) {
+                        if (player.getInventory().contains(Material.valueOf(action.getString("item")), price)) {
+                            player.getInventory().remove(new ItemStack(Material.EMERALD, 1));
+                            return true;
+                        }
+                    }
+//                if (action.getString("buy_type").equalsIgnoreCase("economy")) {
+//                    if (Utils.getEconomy().has(player, price)) {
+//                        Utils.getEconomy().withdrawPlayer(player, price);
 //                        return true;
 //                    }
-//                    if (action.has("command")) {
-//                        String sender = action.has("sender") ? action.getString("sender") : "player";
-//                        String cmd = Utils.setPlaceholders(player, action.getString("command"));
-//                        Bukkit.dispatchCommand(sender.equalsIgnoreCase("CONSOLE") ? Bukkit.getConsoleSender() : player,
-//                                cmd);
-//                    }
-//                    return true;
-//                } else
-//                    return false;
-            case "send_message":
-                player.sendMessage(MessageUtils.colorize(action.getString("message")));
-                return true;
-            case "open_gui":
-                try {
-                    GuiManager.openGui(player, GuiManager.getGui(action.getString("gui")));
-                } catch (NullPointerException ex) {
-                    player.sendMessage(MessageUtils.prefixes("gui") + "There was an error opening that GUI. Does it exist?");
-                }
-                return true;
-            case "join_server":
-                MessageUtils.sendPluginMessage(player, "BungeeCord", "Connect", action.getString("server"));
-                return true;
+//                }
+                    return false;
+                case "send_message":
+                    player.sendMessage(MessageUtils.colorize(action.getString("message")));
+                    return true;
+                case "open_gui":
+                    try {
+                        GuiManager.openGui(player, GuiManager.getGui(action.getString("gui")));
+                    } catch (NullPointerException ex) {
+                        player.sendMessage(MessageUtils.prefixes("gui") + "There was an error opening that GUI. Does it exist?");
+                    }
+                    return true;
+                case "join_server":
+                    MessageUtils.sendPluginMessage(player, "BungeeCord", "Connect", action.getString("server"));
+                    return true;
 
-            case "command":
-                String sender = action.has("sender") ? action.getString("sender") : "player";
-                String cmd = PlaceholderUtils.replace(player, action.getString("command"));
-                Bukkit.dispatchCommand(sender.equalsIgnoreCase("CONSOLE") ? Bukkit.getConsoleSender() : player, cmd);
-                return true;
-            case "close_gui":
-                player.closeInventory();
-                return true;
+                case "command":
+                    String sender = action.has("sender") ? action.getString("sender") : "player";
+                    String cmd = PlaceholderUtils.replace(player, action.getString("command"));
+                    Bukkit.dispatchCommand(sender.equalsIgnoreCase("CONSOLE") ? Bukkit.getConsoleSender() : player, cmd);
+                    return true;
+                case "close_gui":
+                    player.closeInventory();
+                    return true;
+            }
+            if (action.has("error_message"))
+                player.sendMessage(PlaceholderUtils.replace(player, action.getString("error_message")));
+
         }
-        if (action.has("error_message"))
-            player.sendMessage(PlaceholderUtils.replace(player, action.getString("error_message")));
-
-
         return false;
 
+    }
+
+    public class Action {
+
+    }
+
+    public enum ActionType {
+        SOUND, SEND_MESSAGE, OPEN_GUI,
     }
 }

@@ -138,13 +138,8 @@ public class GuiManager {
 
                 if (fc.isSet("guis." + name + ".items." + iid + ".lore"))
                     item.setLore(fc.getStringList("guis." + name + ".items." + iid + ".lore"));
-                if (fc.isSet("guis." + name + ".items." + iid + ".buy"))
-                    item.setBuyPrice(fc.getString("guis." + name + ".items." + iid + ".buy"));
-                if (fc.isSet("guis." + name + ".items." + iid + ".sell"))
-                    item.setSellPrice(fc.getString("guis." + name + ".items." + iid + ".sell"));
 
                 if (fc.isSet("guis." + name + ".items." + iid + ".action")) {
-                    item.setSingleAction(true);
                     JSONObject json = new JSONObject("{}");
                     if (fc.isSet("guis." + name + ".items." + iid + ".action.action"))
                         json.put("action", fc.getString("guis." + name + ".items." + iid + ".action.action"));
@@ -158,11 +153,10 @@ public class GuiManager {
                         json.put("message", fc.getString("guis." + name + ".items." + iid + ".action.message"));
                     if (fc.isSet("guis." + name + ".items." + iid + ".action.command"))
                         json.put("command", fc.getString("guis." + name + ".items." + iid + ".action.command"));
-                    item.setSingleAction(json);
+                    item.addAction(json);
                 }
 
                 if (fc.isSet("guis." + name + ".items." + iid + ".actions")) {
-                    item.setSingleAction(false);
                     JSONArray actions = new JSONArray();
 
                     for (String clickAction : fc.getConfigurationSection("guis." + name + ".items." + iid + ".actions").getKeys(false)) {

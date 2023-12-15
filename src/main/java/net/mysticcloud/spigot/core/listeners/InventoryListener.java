@@ -38,21 +38,7 @@ public class InventoryListener implements Listener {
 
             if (GuiManager.getGuis().get(GuiManager.getOpenGui((Player) e.getWhoClicked()).getId()).hasItem(e.getCurrentItem(), (Player) e.getWhoClicked())) {
                 GuiItem item = GuiManager.getGuis().get(GuiManager.getOpenGui((Player) e.getWhoClicked()).getId()).getItem(e.getCurrentItem(), (Player) e.getWhoClicked());
-                if (item.hasAction()) {
-                    if (item.isSingleAction()) {
-                        item.processAction((Player) e.getWhoClicked());
-                    } else {
-                        for (int i = 0; i < item.getActions().length(); i++) {
-                            JSONObject action = item.getActions().getJSONObject(i);
-                            if (e.getClick().equals(ClickType.valueOf(action.getString("click").toUpperCase().replaceAll("_CLICK", "")))) {
-                                if (!item.processAction((Player) e.getWhoClicked(), action)) {
-                                    MessageUtils.log("Could not process action. Stopping.");
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                if (item.hasAction()) item.processActions((Player) e.getWhoClicked(), e.getClick());
             }
         }
     }
