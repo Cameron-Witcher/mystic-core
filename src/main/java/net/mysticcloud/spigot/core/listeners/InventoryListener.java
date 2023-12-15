@@ -42,7 +42,11 @@ public class InventoryListener implements Listener {
             if (GuiManager.getOpenGui(player).hasItem(e.getCurrentItem(), player)) {
                 Bukkit.broadcastMessage("Gui has item");
                 GuiItem item = GuiManager.getOpenGui(player).getItem(e.getCurrentItem(), player);
-                if (item.hasAction()) item.processActions(player, e.getClick());
+                Bukkit.broadcastMessage("Found item");
+                if (item.hasAction()) {
+                    Bukkit.broadcastMessage("Has action");
+                    item.processActions(player, e.getClick());
+                }
             }
         }
     }
