@@ -103,9 +103,7 @@ public class GuiItem {
     }
 
     public boolean processActions(Player player, ClickType type) {
-        Bukkit.broadcastMessage("Doing action");
         for (int i = 0; i < actions.length(); i++) {
-            Bukkit.broadcastMessage("Action " + i);
             if (!processAction(player, actions.getJSONObject(i), type)) return false;
         }
 
@@ -113,9 +111,7 @@ public class GuiItem {
     }
 
     private boolean processAction(Player player, JSONObject action, ClickType click) {
-        Bukkit.broadcastMessage("Processing");
         if ((action.has("click") && ClickType.valueOf(action.getString("click")).equals(click)) || !action.has("click")) {
-            Bukkit.broadcastMessage("Click checked out");
             switch (action.getString("action").toLowerCase()) {
                 case "sound":
                     player.playSound(player.getLocation(), Sound.valueOf(action.getString("sound")), 10F, 1F);
@@ -166,11 +162,11 @@ public class GuiItem {
                     player.closeInventory();
                     return true;
             }
-            if (action.has("error_message"))
-                player.sendMessage(PlaceholderUtils.replace(player, action.getString("error_message")));
 
         }
-        Bukkit.broadcastMessage("Failed");
+        if (action.has("error_message"))
+            player.sendMessage(PlaceholderUtils.replace(player, action.getString("error_message")));
+
         return false;
 
     }
@@ -181,8 +177,7 @@ public class GuiItem {
         int found = 0;
         for (ItemStack stack : ammo.values())
             found += stack.getAmount();
-        if (count > found)
-            return false;
+        if (count > found) return false;
 
         for (Integer index : ammo.keySet()) {
             ItemStack stack = ammo.get(index);
@@ -190,13 +185,10 @@ public class GuiItem {
             int removed = Math.min(count, stack.getAmount());
             count -= removed;
 
-            if (stack.getAmount() == removed)
-                player.getInventory().setItem(index, null);
-            else
-                stack.setAmount(stack.getAmount() - removed);
+            if (stack.getAmount() == removed) player.getInventory().setItem(index, null);
+            else stack.setAmount(stack.getAmount() - removed);
 
-            if (count <= 0)
-                break;
+            if (count <= 0) break;
         }
 
         player.updateInventory();

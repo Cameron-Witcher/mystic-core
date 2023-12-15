@@ -31,20 +31,14 @@ public class InventoryListener implements Listener {
     @EventHandler
     public void onPlayerInventory(InventoryClickEvent e) {
         Player player = (Player) e.getWhoClicked();
-        Bukkit.broadcastMessage("Click happened.");
         if (GuiManager.getOpenGui(player) != null) {
-            Bukkit.broadcastMessage("In GUI");
             e.setCancelled(true);
             if (e.getCurrentItem() == null) return;
             if (e.getCurrentItem().getType() == Material.AIR) return;
             if (!e.getCurrentItem().hasItemMeta()) return;
-            Bukkit.broadcastMessage("Clicked an Item");
             if (GuiManager.getOpenGui(player).hasItem(e.getCurrentItem(), player)) {
-                Bukkit.broadcastMessage("Gui has item");
                 GuiItem item = GuiManager.getOpenGui(player).getItem(e.getCurrentItem(), player);
-                Bukkit.broadcastMessage("Found item");
                 if (item.hasAction()) {
-                    Bukkit.broadcastMessage("Has action");
                     item.processActions(player, e.getClick());
                 }
             }
