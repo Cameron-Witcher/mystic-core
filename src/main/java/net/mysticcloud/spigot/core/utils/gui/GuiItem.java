@@ -23,7 +23,6 @@ public class GuiItem {
     Material mat = Material.GRASS_BLOCK;
     List<String> lore = null;
     JSONArray actions = new JSONArray();
-    boolean does_action = false;
     int amount = 1;
 
     public GuiItem(String id) {
@@ -50,18 +49,17 @@ public class GuiItem {
         return this;
     }
 
-    public GuiItem setAmount(int i){
+    public GuiItem setAmount(int i) {
         this.amount = i;
         return this;
     }
 
-    public int getAmount(){
+    public int getAmount() {
         return amount;
     }
 
 
     public GuiItem setActions(JSONArray actions) {
-        does_action = true;
         this.actions = actions;
         return this;
     }
@@ -105,7 +103,7 @@ public class GuiItem {
 
     public boolean processActions(Player player, ClickType type) {
         Bukkit.broadcastMessage("Doing action");
-        for (int i = 0; i < actions.length(); i++){
+        for (int i = 0; i < actions.length(); i++) {
             Bukkit.broadcastMessage("Action " + i);
             if (!processAction(player, actions.getJSONObject(i), type)) return false;
         }
@@ -132,9 +130,9 @@ public class GuiItem {
 //                } else
 //                    return false;
                 case "buy":
-                    int price = action.has("price") ? Integer.parseInt(action.getString("price")) : 1;
+                    double price = action.has("price") ? action.getDouble("price") : 1;
                     if (action.getString("buy_type").equalsIgnoreCase("inventory")) {
-                        if (player.getInventory().contains(Material.valueOf(action.getString("item")), price)) {
+                        if (player.getInventory().contains(Material.valueOf(action.getString("item")), ((Double) price).intValue())) {
                             player.getInventory().remove(new ItemStack(Material.EMERALD, 1));
                             return true;
                         }
