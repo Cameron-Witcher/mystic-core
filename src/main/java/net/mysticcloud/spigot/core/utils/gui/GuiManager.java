@@ -97,9 +97,10 @@ public class GuiManager {
 
     public static void closeGui(Player player) {
         if (invTracker.containsKey(player.getUniqueId())) {
+            player.setMetadata("switchinv", new FixedMetadataValue(CoreUtils.getPlugin(), true));
             invTracker.get(player.getUniqueId()).close(player);
             invTracker.remove(player.getUniqueId());
-
+            Bukkit.getScheduler().runTaskLater(CoreUtils.getPlugin(),()->{player.removeMetadata("switchinv",CoreUtils.getPlugin());}, 2);
 
         } else {
             try {
