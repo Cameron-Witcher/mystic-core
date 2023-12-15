@@ -127,7 +127,7 @@ public class GuiItem {
 //                } else
 //                    return false;
                 case "buy":
-                    double price = action.has("price") ? action.getDouble("price") : 1;
+                    int price = action.has("price") ? action.getInt("price") : 1;
                     if (action.getString("buy_type").equalsIgnoreCase("inventory")) {
                         Material mat = Material.valueOf(action.getString("item"));
                         return consumeItem(player, amount, mat);
