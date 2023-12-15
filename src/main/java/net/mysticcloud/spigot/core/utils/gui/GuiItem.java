@@ -2,6 +2,7 @@ package net.mysticcloud.spigot.core.utils.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import net.mysticcloud.spigot.core.utils.MessageUtils;
 import net.mysticcloud.spigot.core.utils.placeholder.PlaceholderUtils;
@@ -132,10 +133,8 @@ public class GuiItem {
                 case "buy":
                     double price = action.has("price") ? action.getDouble("price") : 1;
                     if (action.getString("buy_type").equalsIgnoreCase("inventory")) {
-                        if (player.getInventory().contains(Material.valueOf(action.getString("item")), ((Double) price).intValue())) {
-                            player.getInventory().remove(new ItemStack(Material.EMERALD, 1));
-                            return true;
-                        }
+                        Material mat = Material.valueOf(action.getString("item"));
+                        return consumeItem(player, amount, mat);
                     }
 //                if (action.getString("buy_type").equalsIgnoreCase("economy")) {
 //                    if (Utils.getEconomy().has(player, price)) {
@@ -174,6 +173,34 @@ public class GuiItem {
         Bukkit.broadcastMessage("Failed");
         return false;
 
+    }
+
+    private boolean consumeItem(Player player, int count, Material mat) {
+        Map<Integer, ? extends ItemStack> ammo = player.getInventory().all(mat);
+
+        int found = 0;
+        for (ItemStack stack : ammo.values())
+            found += stack.getAmount();
+        if (count > found)
+            return false;
+
+        for (Integer index : ammo.keySet()) {
+            ItemStack stack = ammo.get(index);
+
+            int removed = Math.min(count, stack.getAmount());
+            count -= removed;
+
+            if (stack.getAmount() == removed)
+                player.getInventory().setItem(index, null);
+            else
+                stack.setAmount(stack.getAmount() - removed);
+
+            if (count <= 0)
+                break;
+        }
+
+        player.updateInventory();
+        return true;
     }
 
     public class Action {
