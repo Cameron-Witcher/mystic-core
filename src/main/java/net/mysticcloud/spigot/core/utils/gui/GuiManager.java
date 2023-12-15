@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.json2.JSONArray;
 import org.json2.JSONObject;
@@ -51,13 +52,14 @@ public class GuiManager {
         }
     }
 
-    public static void openGui(Player player, GuiInventory gui){
-        if(gui == null) return;
+    public static void openGui(Player player, GuiInventory gui) {
+        if (gui == null) return;
         if (invTracker.containsKey(player.getUniqueId())) {
             switchGui(player, gui);
             return;
         }
-        player.openInventory(gui.getInventory(player));
+        gui.open(player);
+//        player.openInventory(gui.getInventory(player));
         invTracker.put(player.getUniqueId(), gui);
     }
 
@@ -65,7 +67,7 @@ public class GuiManager {
         return guis;
     }
 
-    public static GuiInventory getGui(String name){
+    public static GuiInventory getGui(String name) {
         return guis.getOrDefault(name, null);
     }
 
@@ -76,7 +78,7 @@ public class GuiManager {
 
     public static void switchGui(Player player, final GuiInventory gui) {
         if (gui == null) return;
-
+        closeGui(player);
         player.setMetadata("switchinv", new FixedMetadataValue(CoreUtils.getPlugin(), "yup"));
 //        player.openInventory(getGuis().get(invTracker.get(player.getUniqueId())).getInventory(player));
         invTracker.put(player.getUniqueId(), getGui("waiting"));
@@ -85,9 +87,9 @@ public class GuiManager {
 
             @Override
             public void run() {
-                player.openInventory(gui.getInventory(player));
-                invTracker.put(player.getUniqueId(), gui);
+                invTracker.remove(player.getUniqueId());
                 player.removeMetadata("switchinv", CoreUtils.getPlugin());
+                openGui(player, gui);
             }
 
         }, 5);
@@ -95,10 +97,9 @@ public class GuiManager {
 
     public static void closeGui(Player player) {
         if (invTracker.containsKey(player.getUniqueId())) {
-            if (!invTracker.get(player.getUniqueId()).equals("none")) {
-                invTracker.remove(player.getUniqueId());
-                player.closeInventory();
-            }
+            invTracker.get(player.getUniqueId()).close(player);
+            invTracker.remove(player.getUniqueId());
+
 
         } else {
             try {

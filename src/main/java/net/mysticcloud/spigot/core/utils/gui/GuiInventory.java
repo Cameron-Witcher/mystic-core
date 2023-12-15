@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.json2.JSONArray;
 
 public class GuiInventory {
 
@@ -17,6 +18,7 @@ public class GuiInventory {
     String config = "xxxxxx";
     int size = 9;
     Map<String, GuiItem> items = new HashMap<>();
+    private Map<Player, Map<ItemStack, GuiItem>> storedItems = new HashMap<>();
 
     @Deprecated
     public GuiInventory(String id) {
@@ -61,23 +63,15 @@ public class GuiInventory {
         return items.get(key);
     }
 
-    public String getKey(ItemStack item, Player player) {
-        for (Entry<String, GuiItem> e : items.entrySet()) {
-            if (e.getValue().getItem(player).equals(item)) return e.getKey();
-        }
-        return "";
-    }
-
     public boolean hasItem(ItemStack item, Player player) {
-        for (Entry<String, GuiItem> e : items.entrySet()) {
-            if (e.getValue().getItem(player).equals(item)) return true;
-        }
-        return false;
+        return getItem(item, player) != null;
     }
 
     public GuiItem getItem(ItemStack item, Player player) {
-        for (Entry<String, GuiItem> e : items.entrySet()) {
-            if (e.getValue().getItem(player).equals(item)) return e.getValue();
+        if (storedItems.containsKey(player)) {
+            for (Entry<ItemStack, GuiItem> entry : storedItems.get(player).entrySet())
+                if (entry.getKey().equals(item)) return entry.getValue();
+
         }
         return null;
     }
@@ -90,4 +84,16 @@ public class GuiInventory {
         return items;
     }
 
+    protected void open(Player player) {
+        player.openInventory(getInventory(player));
+        storedItems.put(player, new HashMap<ItemStack, GuiItem>());
+        for (GuiItem item : items.values()) {
+            storedItems.get(player).put(item.getItem(player), item);
+        }
+    }
+
+    protected void close(Player player) {
+        player.closeInventory();
+        storedItems.remove(player);
+    }
 }
