@@ -142,13 +142,9 @@ public class CoreUtils {
     }
 
     public static Location decryptLocation(String s) {
-        System.out.println("1: " + s);
         if (s.startsWith("location:")) s = s.replaceAll("location:", "");
-        System.out.println("2: " + s);
         if (s.contains(",")) s = s.replaceAll(",", ".");
-        System.out.println("3: " + s);
         String[] args = s.split(":");
-        System.out.println("Size: " + args.length);
         Location r = new Location(Bukkit.getWorld(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
         if (args.length >= 5) {
             r.setPitch(Float.parseFloat(args[4]));

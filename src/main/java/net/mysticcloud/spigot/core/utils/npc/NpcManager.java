@@ -48,7 +48,7 @@ public class NpcManager {
         int x = 0;
         for (String npcName : fc.getConfigurationSection("npcs").getKeys(false)) {
             String key = "npcs." + npcName;
-            Npc npc = createNpc(CoreUtils.decryptLocation(key + ".location"));
+            Npc npc = createNpc(CoreUtils.decryptLocation(fc.getString(key + ".location")));
             if (fc.isSet(key + ".actions")) {
                 for (String akey : fc.getConfigurationSection(key + ".actions").getKeys(false)) {
                     JSONObject action = new JSONObject();
