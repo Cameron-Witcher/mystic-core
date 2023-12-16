@@ -2,6 +2,7 @@ package net.mysticcloud.spigot.core.listeners;
 
 import net.mysticcloud.spigot.core.MysticCore;
 import net.mysticcloud.spigot.core.utils.MessageUtils;
+import net.mysticcloud.spigot.core.utils.npc.Npc;
 import net.mysticcloud.spigot.core.utils.placeholder.PlaceholderUtils;
 import net.mysticcloud.spigot.core.utils.regions.Region;
 import net.mysticcloud.spigot.core.utils.regions.RegionUtils;
@@ -23,6 +24,12 @@ public class InteractionListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEntityEvent e) {
+        if (e.getRightClicked().hasMetadata("npc")) {
+            e.setCancelled(true);
+            Npc npc = (Npc) e.getRightClicked().getMetadata("npc").get(0).value();
+            npc.processActions(e.getPlayer());
+            return;
+        }
         if (e.getRightClicked().hasMetadata("command")) {
             //Examples JSON for command metadata
             //{"sender":"%player%","command","inv games"}

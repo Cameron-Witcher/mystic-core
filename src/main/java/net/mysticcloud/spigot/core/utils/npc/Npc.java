@@ -20,6 +20,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.loot.LootTable;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
@@ -51,6 +52,7 @@ public class Npc implements Villager {
         this.location = location;
         npc = location.getWorld().spawn(location, Villager.class);
         npc.setAI(false);
+        npc.setMetadata("npc", new FixedMetadataValue(CoreUtils.getPlugin(), this));
         uid = new UID();
     }
 
@@ -62,11 +64,12 @@ public class Npc implements Villager {
         return actions;
     }
 
-    public void move(Location location){
+    public void move(Location location) {
         this.location = location;
         npc.teleport(location);
     }
-    public void move(Vector vector){
+
+    public void move(Vector vector) {
         this.location.add(vector);
         npc.teleport(location);
     }
