@@ -4,19 +4,20 @@ import net.mysticcloud.spigot.core.MysticCore;
 import net.mysticcloud.spigot.core.utils.gui.GuiManager;
 import net.mysticcloud.spigot.core.utils.holograms.Hologram;
 import net.mysticcloud.spigot.core.utils.holograms.HologramManager;
+import net.mysticcloud.spigot.core.utils.npc.NpcManager;
 import net.mysticcloud.spigot.core.utils.placeholder.PlaceholderUtils;
 import net.mysticcloud.spigot.core.utils.regions.RegionUtils;
 import net.mysticcloud.spigot.core.utils.sql.SQLUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 public class CoreUtils {
 
@@ -31,6 +32,7 @@ public class CoreUtils {
         RegionUtils.init();
         SQLUtils.createDatabase("mysticcloud", SQLUtils.SQLDriver.MYSQL, "sql.vanillaflux.com", "mysticcloud", 3306, "mystic", "9ah#G@RjPc@@Riki");
         GuiManager.init();
+        NpcManager.init();
 
     }
 
@@ -106,6 +108,30 @@ public class CoreUtils {
         } catch (IOException e) {
 
         }
+    }
+
+    public static boolean consumeItem(Player player, int count, Material mat) {
+        Map<Integer, ? extends ItemStack> ammo = player.getInventory().all(mat);
+
+        int found = 0;
+        for (ItemStack stack : ammo.values())
+            found += stack.getAmount();
+        if (count > found) return false;
+
+        for (Integer index : ammo.keySet()) {
+            ItemStack stack = ammo.get(index);
+
+            int removed = Math.min(count, stack.getAmount());
+            count -= removed;
+
+            if (stack.getAmount() == removed) player.getInventory().setItem(index, null);
+            else stack.setAmount(stack.getAmount() - removed);
+
+            if (count <= 0) break;
+        }
+
+        player.updateInventory();
+        return true;
     }
 
     public static String encryptLocation(Location loc) {

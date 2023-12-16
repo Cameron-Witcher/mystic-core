@@ -1,6 +1,11 @@
 package net.mysticcloud.spigot.core.utils.npc;
 
+import com.sun.java.swing.action.ActionManager;
+import net.mysticcloud.spigot.core.utils.CoreUtils;
+import net.mysticcloud.spigot.core.utils.MessageUtils;
+import net.mysticcloud.spigot.core.utils.gui.GuiManager;
 import net.mysticcloud.spigot.core.utils.misc.UID;
+import net.mysticcloud.spigot.core.utils.placeholder.PlaceholderUtils;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -10,6 +15,7 @@ import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.entity.*;
 import org.bukkit.entity.memory.MemoryKey;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
@@ -27,6 +33,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
+import org.json2.JSONArray;
+import org.json2.JSONObject;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,17 +43,99 @@ import java.util.UUID;
 
 public class Npc implements Villager {
 
-    Location location;
-    Villager npc;
-    UID uid;
+    private final Villager npc;
+    private final UID uid;
+    private final JSONArray actions = new JSONArray();
+    private Location location;
+
 
     Npc(Location location) {
         this.location = location;
         npc = location.getWorld().spawn(location, Villager.class);
         npc.setAI(false);
         uid = new UID();
+    }
+
+    public void addAction(JSONObject action) {
+        actions.put(action);
+    }
+
+    public JSONArray getActions() {
+        return actions;
+    }
+
+    public void move(Location location){
+        this.location = location;
+        npc.teleport(location);
+    }
+    public void move(Vector vector){
+        this.location.add(vector);
+        npc.teleport(location);
+    }
+
+    public boolean processActions(Player player) {
+        for (int i = 0; i < actions.length(); i++)
+            if (!processAction(player, actions.getJSONObject(i))) return false;
+        return true;
+    }
+
+    private boolean processAction(Player player, JSONObject action) {
+        switch (action.getString("action").toLowerCase()) {
+            case "sound":
+                player.playSound(player.getLocation(), Sound.valueOf(action.getString("sound")), 10F, 1F);
+                return true;
+//            case "sell":
+//                ItemStack t = getItem(player);
+//                if (action.has("amount"))
+//                    t.setAmount(Integer.parseInt(action.getString("amount")));
+//                if (player.getInventory().contains(t)) {
+//                    player.getInventory().remove(t);
+//                    Utils.getEconomy().depositPlayer(player, item.getSellPrice());
+//                    return true;
+//                } else
+//                    return false;
+            case "buy":
+                int price = action.has("price") ? action.getInt("price") : 1;
+                if (action.getString("buy_type").equalsIgnoreCase("inventory")) {
+                    Material mat = Material.valueOf(action.getString("item"));
+                    return CoreUtils.consumeItem(player, price, mat);
+                }
+//                if (action.getString("buy_type").equalsIgnoreCase("economy")) {
+//                    if (Utils.getEconomy().has(player, price)) {
+//                        Utils.getEconomy().withdrawPlayer(player, price);
+//                        return true;
+//                    }
+//                }
+                return false;
+            case "send_message":
+                player.sendMessage(MessageUtils.colorize(action.getString("message")));
+                return true;
+            case "open_gui":
+                try {
+                    GuiManager.openGui(player, GuiManager.getGui(action.getString("gui")));
+                } catch (NullPointerException ex) {
+                    player.sendMessage(MessageUtils.prefixes("gui") + "There was an error opening that GUI. Does it exist?");
+                }
+                return true;
+            case "join_server":
+                MessageUtils.sendPluginMessage(player, "BungeeCord", "Connect", action.getString("server"));
+                return true;
+
+            case "command":
+                String sender = action.has("sender") ? action.getString("sender") : "player";
+                String cmd = PlaceholderUtils.replace(player, action.getString("command"));
+                Bukkit.dispatchCommand(sender.equalsIgnoreCase("CONSOLE") ? Bukkit.getConsoleSender() : player, cmd);
+                return true;
+            case "close_gui":
+                player.closeInventory();
+                return true;
+        }
 
 
+        if (action.has("error_message"))
+            player.sendMessage(PlaceholderUtils.replace(player, action.getString("error_message")));
+
+        return false;
     }
 
     public Villager getBukkitEntity() {

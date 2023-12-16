@@ -1,6 +1,7 @@
 package net.mysticcloud.spigot.core;
 
 import net.mysticcloud.spigot.core.commands.AdminCommands;
+import net.mysticcloud.spigot.core.commands.NpcCommands;
 import net.mysticcloud.spigot.core.commands.PlayerCommands;
 import net.mysticcloud.spigot.core.listeners.ChatListener;
 import net.mysticcloud.spigot.core.listeners.InteractionListener;
@@ -9,6 +10,7 @@ import net.mysticcloud.spigot.core.listeners.ServerListener;
 import net.mysticcloud.spigot.core.listeners.channels.MessageListener;
 import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.accounts.AccountManager;
+import net.mysticcloud.spigot.core.utils.npc.NpcManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,6 +29,7 @@ public class MysticCore extends JavaPlugin {
         new ServerListener(this);
         new InventoryListener(this);
 
+        new NpcCommands(this,"npc");
         new AdminCommands(this, "update", "kick", "region", "sudo");
         new PlayerCommands(this, "inventory");
 
@@ -38,7 +41,7 @@ public class MysticCore extends JavaPlugin {
     }
 
     public void onDisable() {
-
+        NpcManager.disable();
     }
 
 }

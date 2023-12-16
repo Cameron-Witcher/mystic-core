@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import net.mysticcloud.spigot.core.utils.CoreUtils;
 import net.mysticcloud.spigot.core.utils.MessageUtils;
 import net.mysticcloud.spigot.core.utils.placeholder.PlaceholderUtils;
 import org.bukkit.Bukkit;
@@ -102,6 +103,11 @@ public class GuiItem {
         return actions.length() != 0;
     }
 
+    /**
+     * @param player Online Player entity
+     * @param type Type of Click
+     * @return returns true if all processes run
+     */
     public boolean processActions(Player player, ClickType type) {
         for (int i = 0; i < actions.length(); i++) {
             if (!processAction(player, actions.getJSONObject(i), type)) return false;
@@ -129,13 +135,12 @@ public class GuiItem {
                 case "buy":
                     int price = action.has("price") ? action.getInt("price") : 1;
                     if (action.getString("buy_type").equalsIgnoreCase("inventory")) {
-                        Material mat = Material.valueOf(action.getString("item"));
-                        return consumeItem(player, price, mat);
+                        return CoreUtils.consumeItem(player, price, Material.valueOf(action.getString("item")));
                     }
 //                if (action.getString("buy_type").equalsIgnoreCase("economy")) {
 //                    if (Utils.getEconomy().has(player, price)) {
-//                        Utils.getEconomy().withdrawPlayer(player, price);
-//                        return true;
+//                        return Utils.getEconomy().withdrawPlayer(player, price);
+//
 //                    }
 //                }
                     return false;
@@ -171,29 +176,7 @@ public class GuiItem {
 
     }
 
-    private boolean consumeItem(Player player, int count, Material mat) {
-        Map<Integer, ? extends ItemStack> ammo = player.getInventory().all(mat);
 
-        int found = 0;
-        for (ItemStack stack : ammo.values())
-            found += stack.getAmount();
-        if (count > found) return false;
-
-        for (Integer index : ammo.keySet()) {
-            ItemStack stack = ammo.get(index);
-
-            int removed = Math.min(count, stack.getAmount());
-            count -= removed;
-
-            if (stack.getAmount() == removed) player.getInventory().setItem(index, null);
-            else stack.setAmount(stack.getAmount() - removed);
-
-            if (count <= 0) break;
-        }
-
-        player.updateInventory();
-        return true;
-    }
 
     public class Action {
 

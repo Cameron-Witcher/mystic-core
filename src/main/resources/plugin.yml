@@ -8,14 +8,21 @@ main: net.mysticcloud.spigot.core.MysticCore
 commands:
   update:
     description: Update a plugin in our repository.
+    usage: /update <plugin>
   kick:
     description: Kicks a player
+    usage: /kick <player>
   region:
     description: Region command.
+    usage: /region help
   sudo:
     description: Control another player
+    usage: /sudo <player> <action>
   inventory:
     usage: /inventory <inventory>
     aliases:
       - inv
       - gui
+  npc:
+    usage: /npc help
+    description: Spawn or edit an NPC
