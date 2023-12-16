@@ -29,6 +29,7 @@ public class NpcCommands implements CommandExecutor {
                 if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
                     //send help.
                     return true;
+
                 }
                 if (args[0].equalsIgnoreCase("spawn")) {
                     Npc npc = NpcManager.createPersistentNpc(((Player) sender).getLocation());
