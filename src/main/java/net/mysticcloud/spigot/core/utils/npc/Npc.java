@@ -38,13 +38,17 @@ public class Npc implements Entity {
     Npc(Location location) {
         this(location, EntityType.VILLAGER);
     }
+
     Npc(Location location, EntityType type) {
         this.location = location;
         npc = location.getWorld().spawn(location, type.getEntityClass());
-        if(npc instanceof LivingEntity)
+        if (npc instanceof LivingEntity) {
             ((LivingEntity) npc).setAI(false);
+            ((LivingEntity) npc).setCollidable(false);
+        }
         npc.setMetadata("npc", new FixedMetadataValue(CoreUtils.getPlugin(), this));
         uid = new UID();
+
     }
 
     public void addAction(JSONObject action) {
