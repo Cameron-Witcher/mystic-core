@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.mysticcloud.spigot.core.utils.MessageUtils;
 import net.mysticcloud.spigot.core.utils.placeholder.PlaceholderUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -28,7 +29,7 @@ public class GuiInventory {
     @Deprecated
     public GuiInventory(String id, String display_name) {
         this(id);
-        this.display_name = display_name;
+        this.display_name = MessageUtils.colorize(display_name);
     }
 
     @Deprecated
