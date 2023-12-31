@@ -9,6 +9,13 @@ commands:
   update:
     description: Update a plugin in our repository.
     usage: /update <plugin>
+  world:
+    description: World management command.
+  worldtp:
+    description: Visit other worlds.
+    usage: /worldtp <world> [<x> <y> <z> [yaw] [pitch] [player]]
+    aliases:
+      - wtp
   kick:
     description: Kicks a player
     usage: /kick <player>
