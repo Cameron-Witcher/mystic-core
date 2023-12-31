@@ -87,6 +87,12 @@ public class AdminCommands implements CommandExecutor {
                 }
                 WorldManager.copyWorld(Bukkit.getWorld(args[1]), args[2]);
             }
+            if(args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("teleport")){
+                String s = "";
+                for(int i=1; i<args.length; i++)
+                    s = s.equals("") ? args[i] : s + " " + args[i];
+                Bukkit.dispatchCommand(sender, "worldtp " + s);
+            }
         }
         if (cmd.getName().equalsIgnoreCase("worldtp")) {
             if (!(sender instanceof Player)) {
