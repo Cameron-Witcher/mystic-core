@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -31,20 +32,10 @@ public class WorldManager {
     }
 
     public static void deleteWorld(World world) {
+        for(Player player : world.getPlayers())
+            player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
         Bukkit.unloadWorld(world, false);
-        File path = world.getWorldFolder();
-        if (path.exists()) {
-            File files[] = path.listFiles();
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isDirectory()) {
-                    deleteWorld(files[i]);
-                } else {
-                    files[i].delete();
-                }
-            }
-        }
-
-        path.delete();
+        deleteWorld(world.getWorldFolder());
 
     }
 
