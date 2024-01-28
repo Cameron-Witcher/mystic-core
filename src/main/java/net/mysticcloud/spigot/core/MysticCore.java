@@ -27,6 +27,8 @@ public class MysticCore extends JavaPlugin {
         new InventoryListener(this);
         new EntityListener(this);
 
+
+
         new NpcCommands(this,"npc");
         new AdminCommands(this, "update", "kick", "region", "sudo", "world", "worldtp");
         new PlayerCommands(this, "inventory");
